@@ -12,7 +12,7 @@ import (
 	e2e "k8s.io/kubernetes/test/e2e/framework"
 
 	oapi "github.com/openshift/origin/pkg/api"
-	projectapi "github.com/openshift/origin/pkg/project/api"
+	projectapi "github.com/openshift/origin/pkg/project/apis/project"
 	exutil "github.com/openshift/origin/test/extended/util"
 	testutil "github.com/openshift/origin/test/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,7 +21,7 @@ import (
 
 const deploymentRunTimeout = 5 * time.Minute
 
-var _ = g.Describe("[Feature:Performance][Serial][Slow] Load cluster", func() {
+var _ = g.Describe("monkey", func() {
 	defer g.GinkgoRecover()
 	var (
 		oc = exutil.NewCLI("cl", exutil.KubeConfigPath())
@@ -38,7 +38,8 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Load cluster", func() {
 
 		project := ConfigContext.ClusterLoader.Projects
 		tuningSets := ConfigContext.ClusterLoader.TuningSets
-		if len(project) < 1 {
+		if project == nil {
+			e2e.Logf("CONFIG FILE: %+v", ConfigContext.ClusterLoader.Projects)
 			e2e.Failf("invalid config file.\nFile: %v", project)
 		}
 
@@ -47,84 +48,87 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Load cluster", func() {
 		// TODO sjug: add concurrency
 		testStartTime := time.Now()
 		for _, p := range project {
-			g.It(fmt.Sprintf("with %s", p.Basename), func() {
-				// Find tuning if we have it
-				tuning := GetTuningSet(tuningSets, p.Tuning)
-				if tuning != nil {
-					e2e.Logf("Our tuning set is: %v", tuning)
-				}
-				for j := 0; j < p.Number; j++ {
-					// Create namespaces as defined in Cluster Loader config
-					nsName := fmt.Sprintf("%s%d", p.Basename, j)
-					err := oc.Run("new-project").Args(nsName).Execute()
+			// Find tuning if we have it
+			tuning := GetTuningSet(tuningSets, p.Tuning)
+			if tuning != nil {
+				e2e.Logf("Our tuning set is: %v", tuning)
+			}
+			for j := 0; j < p.Number; j++ {
+				// Create namespaces as defined in Cluster Loader config
+				nsName := fmt.Sprintf("%s%d", p.Basename, j)
+				err := oc.Run("new-project").Args(nsName).Execute()
+				o.Expect(err).NotTo(o.HaveOccurred())
+				e2e.Logf("%d/%d : Created new namespace: %v", j+1, p.Number, nsName)
+				namespaces = append(namespaces, nsName)
+
+				// Create templates as defined
+				for _, template := range p.Templates {
+					var allArgs []string
+					e2e.Logf("We're loading file %v: ", template.File)
+					templateObj, err := testutil.GetTemplateFixture(template.File)
+					if err != nil {
+						e2e.Failf("Cant read template config file. Error: %v", err)
+					}
+					allArgs = append(allArgs, templateObj.Name)
+
+					if template.Parameters == (ParameterConfigType{}) {
+						e2e.Logf("Pod environment variables will not be modified.")
+					} else {
+						params := convertVariablesToString(template.Parameters)
+						allArgs = append(allArgs, params...)
+					}
+
+					config, err := oc.AdminClient().Templates(nsName).Create(templateObj)
+					e2e.Logf("Template %v created, config: %+v", templateObj.Name, config)
+
+					err = oc.SetNamespace(nsName).Run("new-app").Args(allArgs...).Execute()
 					o.Expect(err).NotTo(o.HaveOccurred())
-					e2e.Logf("%d/%d : Created new namespace: %v", j+1, p.Number, nsName)
-					namespaces = append(namespaces, nsName)
-
-					// Create templates as defined
-					for _, template := range p.Templates {
-						var allArgs []string
-						e2e.Logf("We're loading file %v: ", template.File)
-						templateObj, err := testutil.GetTemplateFixture(template.File)
-						if err != nil {
-							e2e.Failf("Cant read template config file. Error: %v", err)
-						}
-						allArgs = append(allArgs, templateObj.Name)
-
-						if template.Parameters == (ParameterConfigType{}) {
-							e2e.Logf("Pod environment variables will not be modified.")
-						} else {
-							params := convertVariablesToString(template.Parameters)
-							allArgs = append(allArgs, params...)
-						}
-
-						config, err := oc.AdminClient().Templates(nsName).Create(templateObj)
-						e2e.Logf("Template %v created, config: %+v", templateObj.Name, config)
-
-						err = oc.SetNamespace(nsName).Run("new-app").Args(allArgs...).Execute()
-						o.Expect(err).NotTo(o.HaveOccurred())
-					}
-					// This is too familiar, create pods
-					for _, pod := range p.Pods {
-						// Parse Pod file into struct
-						config := ParsePods(mkPath(pod.File))
-						// Check if environment variables are defined in CL config
-						if pod.Parameters == (ParameterConfigType{}) {
-							e2e.Logf("Pod environment variables will not be modified.")
-						} else {
-							// Override environment variables for Pod using ConfigMap
-							configMapName := InjectConfigMap(c, nsName, pod.Parameters, config)
-							// Cleanup ConfigMap at some point after the Pods are created
-							defer func() {
-								_ = c.Core().ConfigMaps(nsName).Delete(configMapName, nil)
-							}()
-						}
-						// TODO sjug: pass label via config
-						labels := map[string]string{"purpose": "test"}
-						CreatePods(c, pod.Basename, nsName, labels, config.Spec, pod.Number, tuning)
-					}
 				}
-			})
+				// This is too familiar, create pods
+				for _, pod := range p.Pods {
+					// Parse Pod file into struct
+					config := ParsePods(mkPath(pod.File))
+					// Check if environment variables are defined in CL config
+					if pod.Parameters == (ParameterConfigType{}) {
+						e2e.Logf("Pod environment variables will not be modified.")
+					} else {
+						// Override environment variables for Pod using ConfigMap
+						configMapName := InjectConfigMap(c, nsName, pod.Parameters, config)
+						// Cleanup ConfigMap at some point after the Pods are created
+						defer func() {
+							_ = c.Core().ConfigMaps(nsName).Delete(configMapName, nil)
+						}()
+					}
+					// TODO sjug: pass label via config
+					labels := map[string]string{"purpose": "test"}
+					CreatePods(c, pod.Basename, nsName, labels, config.Spec, pod.Number, tuning)
+				}
+			}
 		}
 
 		// Wait for builds and deployments to complete
 		for _, ns := range namespaces {
-			buildList, _ := oc.Client().Builds(ns).List(metav1.ListOptions{})
-			buildName := buildList.Items[0].Name
-			e2e.Logf("Waiting for build: %q", buildName)
-			err := exutil.WaitForABuild(oc.Client().Builds(ns), buildName, nil, nil, nil)
+			buildList, err := oc.Client().Builds(ns).List(metav1.ListOptions{})
 			if err != nil {
-				exutil.DumpBuildLogs(buildName, oc)
+				e2e.Logf("Error listing builds: %v", err)
 			}
-			o.Expect(err).NotTo(o.HaveOccurred())
-			e2e.Logf("Build %q completed", buildName)
+			if len(buildList.Items) > 0 {
+				buildName := buildList.Items[0].Name
+				e2e.Logf("Waiting for build: %q", buildName)
+				err = exutil.WaitForABuild(oc.Client().Builds(ns), buildName, nil, nil, nil)
+				if err != nil {
+					exutil.DumpBuildLogs(buildName, oc)
+				}
+				o.Expect(err).NotTo(o.HaveOccurred())
+				e2e.Logf("Build %q completed", buildName)
 
-			// deploymentName is buildName without the -1 suffix
-			deploymentName := buildName[:len(buildName)-2]
-			e2e.Logf("Waiting for deployment: %q", deploymentName)
-			err = exutil.WaitForADeploymentToComplete(oc.KubeClient().Core().ReplicationControllers(ns), deploymentName, oc)
-			o.Expect(err).NotTo(o.HaveOccurred())
-			e2e.Logf("Deployment %q completed", deploymentName)
+				// deploymentName is buildName without the -1 suffix
+				deploymentName := buildName[:len(buildName)-2]
+				e2e.Logf("Waiting for deployment: %q", deploymentName)
+				err = exutil.WaitForDeploymentConfig(oc.KubeClient(), oc.Client(), ns, deploymentName, 1, oc)
+				o.Expect(err).NotTo(o.HaveOccurred())
+				e2e.Logf("Deployment %q completed", deploymentName)
+			}
 		}
 
 		// Calculate and log test duration
