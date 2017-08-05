@@ -38,8 +38,8 @@
 // test/extended/testdata/build-timing/test-docker-build.json
 // test/extended/testdata/build-timing/test-is.json
 // test/extended/testdata/build-timing/test-s2i-build.json
-// test/extended/testdata/config-map-jenkins-slave-pods.yaml
 // test/extended/testdata/cluster/master-vert.yaml
+// test/extended/testdata/config-map-jenkins-slave-pods.yaml
 // test/extended/testdata/custom-secret-builder/Dockerfile
 // test/extended/testdata/custom-secret-builder/build.sh
 // test/extended/testdata/deployments/custom-deployment.yaml
@@ -218,6 +218,17 @@
 // examples/sample-app/cleanup.sh
 // examples/sample-app/github-webhook-example.json
 // examples/sample-app/pullimages.sh
+// examples/quickstarts/cakephp-mysql-persistent.json
+// examples/quickstarts/cakephp-mysql.json
+// examples/quickstarts/dancer-mysql-persistent.json
+// examples/quickstarts/dancer-mysql.json
+// examples/quickstarts/django-postgresql-persistent.json
+// examples/quickstarts/django-postgresql.json
+// examples/quickstarts/httpd.json
+// examples/quickstarts/nodejs-mongodb-persistent.json
+// examples/quickstarts/nodejs-mongodb.json
+// examples/quickstarts/rails-postgresql-persistent.json
+// examples/quickstarts/rails-postgresql.json
 // examples/prometheus/prometheus.yaml
 // examples/hello-openshift/Dockerfile
 // examples/hello-openshift/hello-pod.json
@@ -242,7 +253,6 @@ import (
 	"strings"
 	"time"
 )
-
 type asset struct {
 	bytes []byte
 	info  os.FileInfo
@@ -1551,6 +1561,70 @@ func testExtendedTestdataBuildTimingTestS2iBuildJson() (*asset, error) {
 	return a, nil
 }
 
+var _testExtendedTestdataClusterMasterVertYaml = []byte(`provider: local
+ClusterLoader:
+  cleanup: true
+  projects:
+    - num: 1
+      basename: cakephp-mysql
+      tuning: default
+      templates:
+        - num: 1
+          file: ./examples/quickstarts/cakephp-mysql.json
+  
+    - num: 1
+      basename: dancer-mysql
+      tuning: default
+      templates:
+        - num: 1
+          file: ./examples/quickstarts/dancer-mysql.json
+  
+    - num: 1
+      basename: django-postgresql
+      tuning: default
+      templates:
+        - num: 1
+          file: ./examples/quickstarts/django-postgresql.json
+  
+    - num: 1
+      basename: nodejs-mongodb
+      tuning: default
+      templates:
+        - num: 1
+          file: ./examples/quickstarts/nodejs-mongodb.json
+  
+    - num: 1
+      basename: rails-postgresql
+      tuning: default
+      templates:
+        - num: 1
+          file: ./examples/quickstarts/rails-postgresql.json
+  
+  tuningsets:
+    - name: default
+      pods:
+        stepping:
+          stepsize: 5
+          pause: 0 min
+        rate_limit:
+          delay: 0 ms
+`)
+
+func testExtendedTestdataClusterMasterVertYamlBytes() ([]byte, error) {
+	return _testExtendedTestdataClusterMasterVertYaml, nil
+}
+
+func testExtendedTestdataClusterMasterVertYaml() (*asset, error) {
+	bytes, err := testExtendedTestdataClusterMasterVertYamlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "test/extended/testdata/cluster/master-vert.yaml", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _testExtendedTestdataConfigMapJenkinsSlavePodsYaml = []byte(`apiVersion: v1
 items:
 - apiVersion: v1
@@ -1608,84 +1682,6 @@ func testExtendedTestdataConfigMapJenkinsSlavePodsYaml() (*asset, error) {
 	}
 
 	info := bindataFileInfo{name: "test/extended/testdata/config-map-jenkins-slave-pods.yaml", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
-	a := &asset{bytes: bytes, info: info}
-	return a, nil
-}
-
-var _testExtendedTestdataClusterMasterVertYaml = []byte(`provider: local
-ClusterLoader:
-  cleanup: true
-  projects:
-    - num: 1
-      basename: cakephp-mysql
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/cakephp/cakephp-mysql.json
-  
-    - num: 1
-      basename: dancer-mysql
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/dancer/dancer-mysql.json
-  
-    - num: 1
-      basename: django-postgresql
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/django/django-postgresql.json
-  
-    - num: 1
-      basename: nodejs-mongodb
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/nodejs/nodejs-mongodb.json
-  
-    - num: 1
-      basename: rails-postgresql
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/rails/rails-postgresql.json
-  
-    - num: 1
-      basename: eap64-mysql
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/eap/eap64-mysql.json
-  
-    - num: 1
-      basename: tomcat8-mongodb
-      tuning: default
-      templates:
-        - num: 1
-          file: ./testdata/quickstarts/tomcat/tomcat8-mongodb.json
-  
-  tuningsets:
-    - name: default
-      pods:
-        stepping:
-          stepsize: 5
-          pause: 0 min
-        rate_limit:
-          delay: 0 ms
-`)
-
-func testExtendedTestdataClusterMasterVertYamlBytes() ([]byte, error) {
-	return _testExtendedTestdataClusterMasterVertYaml, nil
-}
-
-func testExtendedTestdataClusterMasterVertYaml() (*asset, error) {
-	bytes, err := testExtendedTestdataClusterMasterVertYamlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "test/extended/testdata/cluster/master-vert.yaml", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -3725,7 +3721,7 @@ os::util::environment::setup_time_vars
 os::cleanup::tmpdir
 export JUNIT_REPORT_OUTPUT="${LOG_DIR}/raw_test_output.log"
 
-# use a subshell and ` + "`" + `if` + "`" + ` statement to prevent ` + "`" + `exit` + "`" + ` calls from killing this script
+# use a subshell and `+"`"+`if`+"`"+` statement to prevent `+"`"+`exit`+"`"+` calls from killing this script
 if ! ( './gssapi-tests.sh' ) 2>&1; then
     return_code=$?
 fi
@@ -18225,6 +18221,5959 @@ func examplesSampleAppPullimagesSh() (*asset, error) {
 	return a, nil
 }
 
+var _examplesQuickstartsCakephpMysqlPersistentJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "cakephp-mysql-persistent",
+    "annotations": {
+      "openshift.io/display-name": "CakePHP + MySQL (Persistent)",
+      "description": "An example CakePHP application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/cakephp-ex/blob/master/README.md.",
+      "tags": "quickstart,php,cakephp",
+      "iconClass": "icon-php",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a CakePHP application, including a build configuration, application deployment configuration, and database deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/cakephp-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/cake-ex/blob/master/README.md.",
+  "labels": {
+    "template": "cakephp-mysql-persistent"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "cakephp-secret-token" : "${CAKEPHP_SECRET_TOKEN}",
+        "cakephp-security-salt" : "${CAKEPHP_SECURITY_SALT}",
+        "cakephp-security-cipher-seed" : "${CAKEPHP_SECURITY_CIPHER_SEED}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "php:7.0"
+            },
+            "env":  [
+              {
+                "name": "COMPOSER_MIRROR",
+                "value": "${COMPOSER_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "./lib/Cake/Console/cake test app AllTests"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Retry",
+              "execNewPod": {
+                "command": [
+                  "./migrate-database.sh"
+                ],
+                "containerName": "cakephp-mysql-persistent"
+              }
+            }
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "cakephp-mysql-persistent"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "cakephp-mysql-persistent",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health.php",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_ENGINE",
+                    "value": "${DATABASE_ENGINE}"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECRET_TOKEN",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-secret-token"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECURITY_SALT",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-security-salt"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECURITY_CIPHER_SEED",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-security-cipher-seed"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OPCACHE_REVALIDATE_FREQ",
+                    "value": "${OPCACHE_REVALIDATE_FREQ}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mysql",
+            "port": 3306,
+            "targetPort": 3306
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mysql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mysql:5.7"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "mysql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 3306
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/mysql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "MYSQL_PWD='${DATABASE_PASSWORD}' mysql -h 127.0.0.1 -u ${DATABASE_USER} -D ${DATABASE_NAME} -e 'SELECT 1'" ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 3306
+                  }
+                },
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_MYSQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "cakephp-mysql-persistent"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the CakePHP container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MYSQL_LIMIT",
+      "displayName": "Memory Limit (MySQL)",
+      "description": "Maximum amount of memory the MySQL container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/cakephp-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the CakePHP service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "mysql"
+    },
+    {
+      "name": "DATABASE_ENGINE",
+      "displayName": "Database Engine",
+      "description": "Database engine: postgresql, mysql or sqlite (default).",
+      "required": true,
+      "value": "mysql"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "default"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database User",
+      "required": true,
+      "value": "cakephp"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "CAKEPHP_SECRET_TOKEN",
+      "displayName": "CakePHP secret token",
+      "description": "Set this to a long random string.",
+      "generate": "expression",
+      "from": "[\\w]{50}"
+    },
+    {
+      "name": "CAKEPHP_SECURITY_SALT",
+      "displayName": "CakePHP Security Salt",
+      "description": "Security salt for session hash.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "CAKEPHP_SECURITY_CIPHER_SEED",
+      "displayName": "CakePHP Security Cipher Seed",
+      "description": "Security cipher seed for session hash.",
+      "generate": "expression",
+      "from": "[0-9]{30}"
+    },
+    {
+      "name": "OPCACHE_REVALIDATE_FREQ",
+      "displayName": "OPcache Revalidation Frequency",
+      "description": "How often to check script timestamps for updates, in seconds. 0 will result in OPcache checking for updates on every request.",
+      "value": "2"
+    },
+    {
+      "name": "COMPOSER_MIRROR",
+      "displayName": "Custom Composer Mirror URL",
+      "description": "The custom Composer mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsCakephpMysqlPersistentJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsCakephpMysqlPersistentJson, nil
+}
+
+func examplesQuickstartsCakephpMysqlPersistentJson() (*asset, error) {
+	bytes, err := examplesQuickstartsCakephpMysqlPersistentJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/cakephp-mysql-persistent.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsCakephpMysqlJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "cakephp-mysql-example",
+    "annotations": {
+      "openshift.io/display-name": "CakePHP + MySQL (Ephemeral)",
+      "description": "An example CakePHP application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/cakephp-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
+      "tags": "quickstart,php,cakephp",
+      "iconClass": "icon-php",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a CakePHP application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/cakephp-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/cake-ex/blob/master/README.md.",
+  "labels": {
+    "template": "cakephp-mysql-example"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "cakephp-secret-token" : "${CAKEPHP_SECRET_TOKEN}",
+        "cakephp-security-salt" : "${CAKEPHP_SECURITY_SALT}",
+        "cakephp-security-cipher-seed" : "${CAKEPHP_SECURITY_CIPHER_SEED}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "php:7.0"
+            },
+            "env":  [
+              {
+                "name": "COMPOSER_MIRROR",
+                "value": "${COMPOSER_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "./lib/Cake/Console/cake test app AllTests"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Retry",
+              "execNewPod": {
+                "command": [
+                  "./migrate-database.sh"
+                ],
+                "containerName": "cakephp-mysql-example"
+              }
+            }
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "cakephp-mysql-example"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "cakephp-mysql-example",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health.php",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_ENGINE",
+                    "value": "${DATABASE_ENGINE}"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECRET_TOKEN",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-secret-token"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECURITY_SALT",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-security-salt"
+                      }
+                    }
+                  },
+                  {
+                    "name": "CAKEPHP_SECURITY_CIPHER_SEED",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "cakephp-security-cipher-seed"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OPCACHE_REVALIDATE_FREQ",
+                    "value": "${OPCACHE_REVALIDATE_FREQ}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mysql",
+            "port": 3306,
+            "targetPort": 3306
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mysql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mysql:5.7"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "emptyDir": {}
+              }
+            ],
+            "containers": [
+              {
+                "name": "mysql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 3306
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/mysql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "MYSQL_PWD='${DATABASE_PASSWORD}' mysql -h 127.0.0.1 -u ${DATABASE_USER} -D ${DATABASE_NAME} -e 'SELECT 1'" ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 3306
+                  }
+                },
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_MYSQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "cakephp-mysql-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the CakePHP container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MYSQL_LIMIT",
+      "displayName": "Memory Limit (MySQL)",
+      "description": "Maximum amount of memory the MySQL container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/cakephp-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the CakePHP service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "mysql"
+    },
+    {
+      "name": "DATABASE_ENGINE",
+      "displayName": "Database Engine",
+      "description": "Database engine: postgresql, mysql or sqlite (default).",
+      "required": true,
+      "value": "mysql"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "default"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database User",
+      "required": true,
+      "value": "cakephp"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "CAKEPHP_SECRET_TOKEN",
+      "displayName": "CakePHP secret token",
+      "description": "Set this to a long random string.",
+      "generate": "expression",
+      "from": "[\\w]{50}"
+    },
+    {
+      "name": "CAKEPHP_SECURITY_SALT",
+      "displayName": "CakePHP Security Salt",
+      "description": "Security salt for session hash.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "CAKEPHP_SECURITY_CIPHER_SEED",
+      "displayName": "CakePHP Security Cipher Seed",
+      "description": "Security cipher seed for session hash.",
+      "generate": "expression",
+      "from": "[0-9]{30}"
+    },
+    {
+      "name": "OPCACHE_REVALIDATE_FREQ",
+      "displayName": "OPcache Revalidation Frequency",
+      "description": "How often to check script timestamps for updates, in seconds. 0 will result in OPcache checking for updates on every request.",
+      "value": "2"
+    },
+    {
+      "name": "COMPOSER_MIRROR",
+      "displayName": "Custom Composer Mirror URL",
+      "description": "The custom Composer mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsCakephpMysqlJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsCakephpMysqlJson, nil
+}
+
+func examplesQuickstartsCakephpMysqlJson() (*asset, error) {
+	bytes, err := examplesQuickstartsCakephpMysqlJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/cakephp-mysql.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsDancerMysqlPersistentJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "dancer-mysql-persistent",
+    "annotations": {
+      "openshift.io/display-name": "Dancer + MySQL (Persistent)",
+      "description": "An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.",
+      "tags": "quickstart,perl,dancer",
+      "iconClass": "icon-perl",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Dancer based application, including a build configuration, application deployment configuration, and database deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/dancer-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.",
+  "labels": {
+    "template": "dancer-mysql-persistent"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "keybase" : "${SECRET_KEY_BASE}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "perl:5.24"
+            },
+            "env":  [
+              {
+                  "name": "CPAN_MIRROR",
+                  "value": "${CPAN_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "perl -I extlib/lib/perl5 -I lib t/*"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "dancer-mysql-persistent"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "dancer-mysql-persistent",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                    "timeoutSeconds": 3,
+                    "initialDelaySeconds": 30,
+                    "httpGet": {
+                        "path": "/",
+                        "port": 8080
+                    }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "SECRET_KEY_BASE",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "keybase"
+                      }
+                    }
+                  },
+                  {
+                    "name": "PERL_APACHE2_RELOAD",
+                    "value": "${PERL_APACHE2_RELOAD}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mysql",
+            "port": 3306,
+            "targetPort": 3306
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mysql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mysql:5.7"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "mysql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 3306
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/mysql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "MYSQL_PWD='${DATABASE_PASSWORD}' mysql -h 127.0.0.1 -u ${DATABASE_USER} -D ${DATABASE_NAME} -e 'SELECT 1'" ]
+                  }
+                },
+                "livenessProbe": {
+                    "timeoutSeconds": 1,
+                    "initialDelaySeconds": 30,
+                    "tcpSocket": {
+                        "port": 3306
+                    }
+                },
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                      "name": "MYSQL_DATABASE",
+                      "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "resources": {
+                    "limits": {
+                        "memory": "${MEMORY_MYSQL_LIMIT}"
+                    }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "dancer-mysql-persistent"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the Perl Dancer container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MYSQL_LIMIT",
+      "displayName": "Memory Limit (MySQL)",
+      "description": "Maximum amount of memory the MySQL container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/dancer-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Dancer service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "database"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "name": "PERL_APACHE2_RELOAD",
+      "displayName": "Perl Module Reload",
+      "description": "Set this to \"true\" to enable automatic reloading of modified Perl modules.",
+      "value": ""
+    },
+    {
+      "name": "SECRET_KEY_BASE",
+      "displayName": "Secret Key",
+      "description": "Your secret key for verifying the integrity of signed cookies.",
+      "generate": "expression",
+      "from": "[a-z0-9]{127}"
+    },
+    {
+      "name": "CPAN_MIRROR",
+      "displayName": "Custom CPAN Mirror URL",
+      "description": "The custom CPAN mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsDancerMysqlPersistentJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsDancerMysqlPersistentJson, nil
+}
+
+func examplesQuickstartsDancerMysqlPersistentJson() (*asset, error) {
+	bytes, err := examplesQuickstartsDancerMysqlPersistentJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/dancer-mysql-persistent.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsDancerMysqlJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "dancer-mysql-example",
+    "annotations": {
+      "openshift.io/display-name": "Dancer + MySQL (Ephemeral)",
+      "description": "An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
+      "tags": "quickstart,perl,dancer",
+      "iconClass": "icon-perl",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Dancer based application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/dancer-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/dancer-ex/blob/master/README.md.",
+  "labels": {
+    "template": "dancer-mysql-example"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "keybase" : "${SECRET_KEY_BASE}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "perl:5.24"
+            },
+            "env":  [
+              {
+                  "name": "CPAN_MIRROR",
+                  "value": "${CPAN_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "perl -I extlib/lib/perl5 -I lib t/*"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "dancer-mysql-example"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "dancer-mysql-example",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                    "timeoutSeconds": 3,
+                    "initialDelaySeconds": 30,
+                    "httpGet": {
+                        "path": "/",
+                        "port": 8080
+                    }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "SECRET_KEY_BASE",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "keybase"
+                      }
+                    }
+                  },
+                  {
+                    "name": "PERL_APACHE2_RELOAD",
+                    "value": "${PERL_APACHE2_RELOAD}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mysql",
+            "port": 3306,
+            "targetPort": 3306
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mysql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mysql:5.7"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "emptyDir": {}
+              }
+            ],
+            "containers": [
+              {
+                "name": "mysql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 3306
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/mysql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "MYSQL_PWD='${DATABASE_PASSWORD}' mysql -h 127.0.0.1 -u ${DATABASE_USER} -D ${DATABASE_NAME} -e 'SELECT 1'" ]
+                  }
+                },
+                "livenessProbe": {
+                    "timeoutSeconds": 1,
+                    "initialDelaySeconds": 30,
+                    "tcpSocket": {
+                        "port": 3306
+                    }
+                },
+                "env": [
+                  {
+                    "name": "MYSQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MYSQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                      "name": "MYSQL_DATABASE",
+                      "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "resources": {
+                    "limits": {
+                        "memory": "${MEMORY_MYSQL_LIMIT}"
+                    }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "dancer-mysql-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the Perl Dancer container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MYSQL_LIMIT",
+      "displayName": "Memory Limit (MySQL)",
+      "description": "Maximum amount of memory the MySQL container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/dancer-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Dancer service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "database"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "name": "PERL_APACHE2_RELOAD",
+      "displayName": "Perl Module Reload",
+      "description": "Set this to \"true\" to enable automatic reloading of modified Perl modules.",
+      "value": ""
+    },
+    {
+      "name": "SECRET_KEY_BASE",
+      "displayName": "Secret Key",
+      "description": "Your secret key for verifying the integrity of signed cookies.",
+      "generate": "expression",
+      "from": "[a-z0-9]{127}"
+    },
+    {
+      "name": "CPAN_MIRROR",
+      "displayName": "Custom CPAN Mirror URL",
+      "description": "The custom CPAN mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsDancerMysqlJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsDancerMysqlJson, nil
+}
+
+func examplesQuickstartsDancerMysqlJson() (*asset, error) {
+	bytes, err := examplesQuickstartsDancerMysqlJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/dancer-mysql.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsDjangoPostgresqlPersistentJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "django-psql-persistent",
+    "annotations": {
+      "openshift.io/display-name": "Django + PostgreSQL (Persistent)",
+      "description": "An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/django-ex/blob/master/README.md.",
+      "tags": "quickstart,python,django",
+      "iconClass": "icon-python",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Django based application, including a build configuration, application deployment configuration, and database deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/django-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/django-ex/blob/master/README.md.",
+  "labels": {
+    "template": "django-psql-persistent"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "django-secret-key" : "${DJANGO_SECRET_KEY}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "python:3.5"
+            },
+            "env": [
+              {
+                  "name": "PIP_INDEX_URL",
+                  "value": "${PIP_INDEX_URL}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+           "script": "./manage.py test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "django-psql-persistent"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "django-psql-persistent",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_ENGINE",
+                    "value": "${DATABASE_ENGINE}"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "APP_CONFIG",
+                    "value": "${APP_CONFIG}"
+                  },
+                  {
+                    "name": "DJANGO_SECRET_KEY",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "django-secret-key"
+                      }
+                    }
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "port": 5432,
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "postgresql:9.5"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5432
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U ${POSTGRESQL_USER} -q -d ${POSTGRESQL_DATABASE} -c 'SELECT 1'"]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 5432
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_POSTGRESQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "django-psql-persistent"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "required": true,
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "required": true,
+      "description": "Maximum amount of memory the Django container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_POSTGRESQL_LIMIT",
+      "displayName": "Memory Limit (PostgreSQL)",
+      "required": true,
+      "description": "Maximum amount of memory the PostgreSQL container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "required": true,
+      "description": "The URL of the repository with your application source code.",
+      "value": "https://github.com/openshift/django-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Django service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_ENGINE",
+      "displayName": "Database Engine",
+      "required": true,
+      "description": "Database engine: postgresql, mysql or sqlite (default).",
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "default"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "required": true,
+      "value": "django"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database User Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "APP_CONFIG",
+      "displayName": "Application Configuration File Path",
+      "description": "Relative path to Gunicorn configuration file (optional)."
+    },
+    {
+      "name": "DJANGO_SECRET_KEY",
+      "displayName": "Django Secret Key",
+      "description": "Set this to a long random string.",
+      "generate": "expression",
+      "from": "[\\w]{50}"
+    },
+    {
+      "name": "PIP_INDEX_URL",
+      "displayName": "Custom PyPi Index URL",
+      "description": "The custom PyPi index URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsDjangoPostgresqlPersistentJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsDjangoPostgresqlPersistentJson, nil
+}
+
+func examplesQuickstartsDjangoPostgresqlPersistentJson() (*asset, error) {
+	bytes, err := examplesQuickstartsDjangoPostgresqlPersistentJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/django-postgresql-persistent.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsDjangoPostgresqlJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "django-psql-example",
+    "annotations": {
+      "openshift.io/display-name": "Django + PostgreSQL (Ephemeral)",
+      "description": "An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/django-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
+      "tags": "quickstart,python,django",
+      "iconClass": "icon-python",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Django based application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/django-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/django-ex/blob/master/README.md.",
+  "labels": {
+    "template": "django-psql-example"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "django-secret-key" : "${DJANGO_SECRET_KEY}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "python:3.5"
+            },
+            "env": [
+              {
+                  "name": "PIP_INDEX_URL",
+                  "value": "${PIP_INDEX_URL}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+           "script": "./manage.py test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "django-psql-example"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "django-psql-example",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_ENGINE",
+                    "value": "${DATABASE_ENGINE}"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "APP_CONFIG",
+                    "value": "${APP_CONFIG}"
+                  },
+                  {
+                    "name": "DJANGO_SECRET_KEY",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "django-secret-key"
+                      }
+                    }
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "port": 5432,
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "postgresql:9.5"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "emptyDir": {}
+              }
+            ],
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5432
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U ${POSTGRESQL_USER} -q -d ${POSTGRESQL_DATABASE} -c 'SELECT 1'"]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 5432
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_POSTGRESQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "django-psql-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "required": true,
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "required": true,
+      "description": "Maximum amount of memory the Django container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_POSTGRESQL_LIMIT",
+      "displayName": "Memory Limit (PostgreSQL)",
+      "required": true,
+      "description": "Maximum amount of memory the PostgreSQL container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "required": true,
+      "description": "The URL of the repository with your application source code.",
+      "value": "https://github.com/openshift/django-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Django service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_ENGINE",
+      "displayName": "Database Engine",
+      "required": true,
+      "description": "Database engine: postgresql, mysql or sqlite (default).",
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "default"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "required": true,
+      "value": "django"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database User Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "APP_CONFIG",
+      "displayName": "Application Configuration File Path",
+      "description": "Relative path to Gunicorn configuration file (optional)."
+    },
+    {
+      "name": "DJANGO_SECRET_KEY",
+      "displayName": "Django Secret Key",
+      "description": "Set this to a long random string.",
+      "generate": "expression",
+      "from": "[\\w]{50}"
+    },
+    {
+      "name": "PIP_INDEX_URL",
+      "displayName": "Custom PyPi Index URL",
+      "description": "The custom PyPi index URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsDjangoPostgresqlJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsDjangoPostgresqlJson, nil
+}
+
+func examplesQuickstartsDjangoPostgresqlJson() (*asset, error) {
+	bytes, err := examplesQuickstartsDjangoPostgresqlJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/django-postgresql.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsHttpdJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "httpd-example",
+    "annotations": {
+      "openshift.io/display-name": "Httpd",
+      "description": "An example Httpd application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+      "tags": "quickstart,httpd",
+      "iconClass": "icon-apache",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a static application served by httpd, including a build configuration and application deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/httpd-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/httpd-ex/blob/master/README.md.",
+  "labels": {
+    "template": "httpd-example"
+  },
+  "objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "httpd:2.4"
+            }
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          },
+          {
+            "type": "Generic",
+            "generic": {
+              "secret": "${GENERIC_WEBHOOK_SECRET}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "httpd-example"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "httpd-example",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                    "timeoutSeconds": 3,
+                    "initialDelaySeconds": 30,
+                    "httpGet": {
+                        "path": "/",
+                        "port": 8080
+                    }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "${MEMORY_LIMIT}"
+                    }
+                },
+                "env": [
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "httpd-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/httpd-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the httpd service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "GENERIC_WEBHOOK_SECRET",
+      "displayName": "Generic Webhook Secret",
+      "description": "A secret string used to configure the Generic webhook.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsHttpdJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsHttpdJson, nil
+}
+
+func examplesQuickstartsHttpdJson() (*asset, error) {
+	bytes, err := examplesQuickstartsHttpdJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/httpd.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsNodejsMongodbPersistentJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nodejs-mongo-persistent",
+    "annotations": {
+      "openshift.io/display-name": "Node.js + MongoDB (Persistent)",
+      "description": "An example Node.js application with a MongoDB database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
+      "tags": "quickstart,nodejs",
+      "iconClass": "icon-nodejs",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a NodeJS application, including a build configuration, application deployment configuration, and database deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/nodejs-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
+  "labels": {
+    "template": "nodejs-mongo-persistent"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData": {
+        "database-user": "${DATABASE_USER}",
+        "database-password": "${DATABASE_PASSWORD}",
+        "database-admin-password" : "${DATABASE_ADMIN_PASSWORD}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "nodejs:6"
+            },
+            "env":  [
+              {
+                "name": "NPM_MIRROR",
+                "value": "${NPM_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          },
+          {
+            "type": "Generic",
+            "generic": {
+              "secret": "${GENERIC_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "npm test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "nodejs-mongo-persistent"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "nodejs-mongo-persistent",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-admin-password"
+                      }
+                    }
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/pagecount",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/pagecount",
+                    "port": 8080
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mongodb",
+            "port": 27017,
+            "targetPort": 27017
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mongodb"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mongodb:3.2"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "mongodb",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 27017
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MONGODB_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-admin-password"
+                      }
+                    }
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 3,
+                  "exec": {
+                    "command": [
+                      "/bin/sh",
+                      "-i",
+                      "-c",
+                      "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval=\"quit()\""
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 27017
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_MONGODB_LIMIT}"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/mongodb/data"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "nodejs-mongo-persistent"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the Node.js container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MONGODB_LIMIT",
+      "displayName": "Memory Limit (MongoDB)",
+      "description": "Maximum amount of memory the MongoDB container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/nodejs-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "GENERIC_WEBHOOK_SECRET",
+      "displayName": "Generic Webhook Secret",
+      "description": "A secret string used to configure the Generic webhook.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "mongodb"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "MongoDB Username",
+      "description": "Username for MongoDB user that will be used for accessing the database.",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "MongoDB Password",
+      "description": "Password for the MongoDB user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "name": "DATABASE_ADMIN_PASSWORD",
+      "displayName": "Database Administrator Password",
+      "description": "Password for the database admin user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "NPM_MIRROR",
+      "displayName": "Custom NPM Mirror URL",
+      "description": "The custom NPM mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsNodejsMongodbPersistentJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsNodejsMongodbPersistentJson, nil
+}
+
+func examplesQuickstartsNodejsMongodbPersistentJson() (*asset, error) {
+	bytes, err := examplesQuickstartsNodejsMongodbPersistentJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/nodejs-mongodb-persistent.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsNodejsMongodbJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nodejs-mongodb-example",
+    "annotations": {
+      "openshift.io/display-name": "Node.js + MongoDB (Ephemeral)",
+      "description": "An example Node.js application with a MongoDB database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
+      "tags": "quickstart,nodejs",
+      "iconClass": "icon-nodejs",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a NodeJS application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/nodejs-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/nodejs-ex/blob/master/README.md.",
+  "labels": {
+    "template": "nodejs-mongodb-example"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "stringData": {
+        "database-user": "${DATABASE_USER}",
+        "database-password": "${DATABASE_PASSWORD}",
+        "database-admin-password" : "${DATABASE_ADMIN_PASSWORD}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "nodejs:6"
+            },
+            "env": [
+              {
+                "name": "NPM_MIRROR",
+                "value": "${NPM_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          },
+          {
+            "type": "Generic",
+            "generic": {
+              "secret": "${GENERIC_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "npm test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "nodejs-mongodb-example"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "nodejs-mongodb-example",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-admin-password"
+                      }
+                    }
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "httpGet": {
+                    "path": "/pagecount",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "httpGet": {
+                    "path": "/pagecount",
+                    "port": 8080
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mongodb",
+            "port": 27017,
+            "targetPort": 27017
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mongodb"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "mongodb:3.2"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "mongodb",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 27017
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MONGODB_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-admin-password"
+                      }
+                    }
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 3,
+                  "exec": {
+                    "command": [
+                      "/bin/sh",
+                      "-i",
+                      "-c",
+                      "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval=\"quit()\""
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 27017
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_MONGODB_LIMIT}"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/mongodb/data"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "emptyDir": {
+                  "medium": ""
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "nodejs-mongodb-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the Node.js container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MONGODB_LIMIT",
+      "displayName": "Memory Limit (MongoDB)",
+      "description": "Maximum amount of memory the MongoDB container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/openshift/nodejs-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "GENERIC_WEBHOOK_SECRET",
+      "displayName": "Generic Webhook Secret",
+      "description": "A secret string used to configure the Generic webhook.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "required": true,
+      "value": "mongodb"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "MongoDB Username",
+      "description": "Username for MongoDB user that will be used for accessing the database.",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "MongoDB Password",
+      "description": "Password for the MongoDB user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "name": "DATABASE_ADMIN_PASSWORD",
+      "displayName": "Database Administrator Password",
+      "description": "Password for the database admin user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "NPM_MIRROR",
+      "displayName": "Custom NPM Mirror URL",
+      "description": "The custom NPM mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsNodejsMongodbJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsNodejsMongodbJson, nil
+}
+
+func examplesQuickstartsNodejsMongodbJson() (*asset, error) {
+	bytes, err := examplesQuickstartsNodejsMongodbJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/nodejs-mongodb.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsRailsPostgresqlPersistentJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "rails-pgsql-persistent",
+    "annotations": {
+      "openshift.io/display-name": "Rails + PostgreSQL (Persistent)",
+      "description": "An example Rails application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/rails-ex/blob/master/README.md.",
+      "tags": "quickstart,ruby,rails",
+      "iconClass": "icon-ruby",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Rails application, including a build configuration, application deployment configuration, and database deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/rails-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/rails-ex/blob/master/README.md.",
+  "labels": {
+    "template": "rails-pgsql-persistent"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-username": "{.data['application-user']}",
+          "template.openshift.io/expose-password": "{.data['application-password']}"
+        }
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "application-user" : "${APPLICATION_USER}",
+        "application-password" : "${APPLICATION_PASSWORD}",
+        "keybase" : "${SECRET_KEY_BASE}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "ruby:2.3"
+            },
+            "env": [
+              {
+                "name": "RUBYGEM_MIRROR",
+                "value": "${RUBYGEM_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "bundle exec rake test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Abort",
+              "execNewPod": {
+                "command": [
+                  "./migrate-database.sh"
+                ],
+                "containerName": "${NAME}"
+              }
+            }
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "${NAME}",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 5,
+                  "httpGet": {
+                    "path": "/articles",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 10,
+                  "httpGet": {
+                    "path": "/articles",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "SECRET_KEY_BASE",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "keybase"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_MAX_CONNECTIONS",
+                    "value": "${POSTGRESQL_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "POSTGRESQL_SHARED_BUFFERS",
+                    "value": "${POSTGRESQL_SHARED_BUFFERS}"
+                  },
+                  {
+                    "name": "APPLICATION_DOMAIN",
+                    "value": "${APPLICATION_DOMAIN}"
+                  },
+                  {
+                    "name": "APPLICATION_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "application-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "APPLICATION_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "application-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "RAILS_ENV",
+                    "value": "${RAILS_ENV}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "port": 5432,
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "postgresql:9.5"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5432
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U ${POSTGRESQL_USER} -q -d ${POSTGRESQL_DATABASE} -c 'SELECT 1'"]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 5432
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_MAX_CONNECTIONS",
+                    "value": "${POSTGRESQL_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "POSTGRESQL_SHARED_BUFFERS",
+                    "value": "${POSTGRESQL_SHARED_BUFFERS}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_POSTGRESQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "rails-pgsql-persistent"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "required": true,
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "required": true,
+      "description": "Maximum amount of memory the Rails container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_POSTGRESQL_LIMIT",
+      "displayName": "Memory Limit (PostgreSQL)",
+      "required": true,
+      "description": "Maximum amount of memory the PostgreSQL container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "VOLUME_CAPACITY",
+      "displayName": "Volume Capacity",
+      "description": "Volume space available for data, e.g. 512Mi, 2Gi",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "required": true,
+      "description": "The URL of the repository with your application source code.",
+      "value": "https://github.com/openshift/rails-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Rails service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "SECRET_KEY_BASE",
+      "displayName": "Secret Key",
+      "description": "Your secret key for verifying the integrity of signed cookies.",
+      "generate": "expression",
+      "from": "[a-z0-9]{127}"
+    },
+    {
+      "name": "APPLICATION_USER",
+      "displayName": "Application Username",
+      "required": true,
+      "description": "The application user that is used within the sample application to authorize access on pages.",
+      "value": "openshift"
+    },
+    {
+      "name": "APPLICATION_PASSWORD",
+      "displayName": "Application Password",
+      "required": true,
+      "description": "The application password that is used within the sample application to authorize access on pages.",
+      "value": "secret"
+    },
+    {
+      "name": "RAILS_ENV",
+      "displayName": "Rails Environment",
+      "required": true,
+      "description": "Environment under which the sample application will run. Could be set to production, development or test.",
+      "value": "production"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "required": true,
+      "displayName": "Database Service Name",
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "required": true,
+      "displayName": "Database Name",
+      "value": "root"
+    },
+    {
+      "name": "POSTGRESQL_MAX_CONNECTIONS",
+      "displayName": "Maximum Database Connections",
+      "value": "100"
+    },
+    {
+      "name": "POSTGRESQL_SHARED_BUFFERS",
+      "displayName": "Shared Buffer Amount",
+      "value": "12MB"
+    },
+    {
+      "name": "RUBYGEM_MIRROR",
+      "displayName": "Custom RubyGems Mirror URL",
+      "description": "The custom RubyGems mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsRailsPostgresqlPersistentJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsRailsPostgresqlPersistentJson, nil
+}
+
+func examplesQuickstartsRailsPostgresqlPersistentJson() (*asset, error) {
+	bytes, err := examplesQuickstartsRailsPostgresqlPersistentJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/rails-postgresql-persistent.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _examplesQuickstartsRailsPostgresqlJson = []byte(`{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "rails-postgresql-example",
+    "annotations": {
+      "openshift.io/display-name": "Rails + PostgreSQL (Ephemeral)",
+      "description": "An example Rails application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/openshift/rails-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
+      "tags": "quickstart,ruby,rails",
+      "iconClass": "icon-ruby",
+      "template.openshift.io/long-description": "This template defines resources needed to develop a Rails application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/openshift/rails-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/openshift/rails-ex/blob/master/README.md.",
+  "labels": {
+    "template": "rails-postgresql-example"
+  },
+  "objects": [
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-username": "{.data['application-user']}",
+          "template.openshift.io/expose-password": "{.data['application-password']}"
+        }
+      },
+      "stringData" : {
+        "database-user" : "${DATABASE_USER}",
+        "database-password" : "${DATABASE_PASSWORD}",
+        "application-user" : "${APPLICATION_USER}",
+        "application-password" : "${APPLICATION_PASSWORD}",
+        "keybase" : "${SECRET_KEY_BASE}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${NAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to build the application"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "ruby:2.3"
+            },
+            "env": [
+              {
+                "name": "RUBYGEM_MIRROR",
+                "value": "${RUBYGEM_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ],
+        "postCommit": {
+          "script": "bundle exec rake test"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate",
+          "recreateParams": {
+            "pre": {
+              "failurePolicy": "Abort",
+              "execNewPod": {
+                "command": [
+                  "./migrate-database.sh"
+                ],
+                "containerName": "${NAME}"
+              }
+            }
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}",
+            "labels": {
+              "name": "${NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "${NAME}",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 5,
+                  "httpGet": {
+                    "path": "/articles",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 10,
+                  "httpGet": {
+                    "path": "/articles",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "SECRET_KEY_BASE",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "keybase"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_MAX_CONNECTIONS",
+                    "value": "${POSTGRESQL_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "POSTGRESQL_SHARED_BUFFERS",
+                    "value": "${POSTGRESQL_SHARED_BUFFERS}"
+                  },
+                  {
+                    "name": "APPLICATION_DOMAIN",
+                    "value": "${APPLICATION_DOMAIN}"
+                  },
+                  {
+                    "name": "APPLICATION_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "application-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "APPLICATION_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "application-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "RAILS_ENV",
+                    "value": "${RAILS_ENV}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "port": 5432,
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${NAMESPACE}",
+                "name": "postgresql:9.5"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "emptyDir": {}
+              }
+            ],
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5432
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U ${POSTGRESQL_USER} -q -d ${POSTGRESQL_DATABASE} -c 'SELECT 1'"]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 5432
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_MAX_CONNECTIONS",
+                    "value": "${POSTGRESQL_MAX_CONNECTIONS}"
+                  },
+                  {
+                    "name": "POSTGRESQL_SHARED_BUFFERS",
+                    "value": "${POSTGRESQL_SHARED_BUFFERS}"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_POSTGRESQL_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "rails-postgresql-example"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "required": true,
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "value": "openshift"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "required": true,
+      "description": "Maximum amount of memory the Rails container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_POSTGRESQL_LIMIT",
+      "displayName": "Memory Limit (PostgreSQL)",
+      "required": true,
+      "description": "Maximum amount of memory the PostgreSQL container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "required": true,
+      "description": "The URL of the repository with your application source code.",
+      "value": "https://github.com/openshift/rails-ex.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Rails service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "SECRET_KEY_BASE",
+      "displayName": "Secret Key",
+      "description": "Your secret key for verifying the integrity of signed cookies.",
+      "generate": "expression",
+      "from": "[a-z0-9]{127}"
+    },
+    {
+      "name": "APPLICATION_USER",
+      "displayName": "Application Username",
+      "required": true,
+      "description": "The application user that is used within the sample application to authorize access on pages.",
+      "value": "openshift"
+    },
+    {
+      "name": "APPLICATION_PASSWORD",
+      "displayName": "Application Password",
+      "required": true,
+      "description": "The application password that is used within the sample application to authorize access on pages.",
+      "value": "secret"
+    },
+    {
+      "name": "RAILS_ENV",
+      "displayName": "Rails Environment",
+      "required": true,
+      "description": "Environment under which the sample application will run. Could be set to production, development or test.",
+      "value": "production"
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "required": true,
+      "displayName": "Database Service Name",
+      "value": "postgresql"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "Database Username",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "Database Password",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{8}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "required": true,
+      "displayName": "Database Name",
+      "value": "root"
+    },
+    {
+      "name": "POSTGRESQL_MAX_CONNECTIONS",
+      "displayName": "Maximum Database Connections",
+      "value": "100"
+    },
+    {
+      "name": "POSTGRESQL_SHARED_BUFFERS",
+      "displayName": "Shared Buffer Amount",
+      "value": "12MB"
+    },
+    {
+      "name": "RUBYGEM_MIRROR",
+      "displayName": "Custom RubyGems Mirror URL",
+      "description": "The custom RubyGems mirror URL",
+      "value": ""
+    }
+  ]
+}
+`)
+
+func examplesQuickstartsRailsPostgresqlJsonBytes() ([]byte, error) {
+	return _examplesQuickstartsRailsPostgresqlJson, nil
+}
+
+func examplesQuickstartsRailsPostgresqlJson() (*asset, error) {
+	bytes, err := examplesQuickstartsRailsPostgresqlJsonBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "examples/quickstarts/rails-postgresql.json", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 var _examplesPrometheusPrometheusYaml = []byte(`apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
@@ -18393,14 +24342,14 @@ objects:
       # and services to allow each to use different authentication configs.
       #
       # Kubernetes labels will be added as Prometheus labels on metrics via the
-      # ` + "`" + `labelmap` + "`" + ` relabeling action.
+      # `+"`"+`labelmap`+"`"+` relabeling action.
 
       # Scrape config for API servers.
       #
       # Kubernetes exposes API servers as endpoints to the default/kubernetes
-      # service so this uses ` + "`" + `endpoints` + "`" + ` role and uses relabelling to only keep
+      # service so this uses `+"`"+`endpoints`+"`"+` role and uses relabelling to only keep
       # the endpoints associated with the default/kubernetes service using the
-      # default named port ` + "`" + `https` + "`" + `. This works for single API server deployments as
+      # default named port `+"`"+`https`+"`"+`. This works for single API server deployments as
       # well as HA API server deployments.
       scrape_configs:
       - job_name: 'kubernetes-apiservers'
@@ -18464,11 +24413,11 @@ objects:
       # The relabeling allows the actual service scrape endpoint to be configured
       # via the following annotations:
       #
-      # * ` + "`" + `prometheus.io/scrape` + "`" + `: Only scrape services that have a value of ` + "`" + `true` + "`" + `
-      # * ` + "`" + `prometheus.io/scheme` + "`" + `: If the metrics endpoint is secured then you will need
-      # to set this to ` + "`" + `https` + "`" + ` & most likely set the ` + "`" + `tls_config` + "`" + ` of the scrape config.
-      # * ` + "`" + `prometheus.io/path` + "`" + `: If the metrics path is not ` + "`" + `/metrics` + "`" + ` override this.
-      # * ` + "`" + `prometheus.io/port` + "`" + `: If the metrics are exposed on a different port to the
+      # * `+"`"+`prometheus.io/scrape`+"`"+`: Only scrape services that have a value of `+"`"+`true`+"`"+`
+      # * `+"`"+`prometheus.io/scheme`+"`"+`: If the metrics endpoint is secured then you will need
+      # to set this to `+"`"+`https`+"`"+` & most likely set the `+"`"+`tls_config`+"`"+` of the scrape config.
+      # * `+"`"+`prometheus.io/path`+"`"+`: If the metrics path is not `+"`"+`/metrics`+"`"+` override this.
+      # * `+"`"+`prometheus.io/port`+"`"+`: If the metrics are exposed on a different port to the
       # service then set this appropriately.
       - job_name: 'kubernetes-service-endpoints'
 
@@ -20971,236 +26920,247 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"test/extended/testdata/aggregator/kube-system-auth-reader.yaml":                  testExtendedTestdataAggregatorKubeSystemAuthReaderYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-apiservice.yaml":              testExtendedTestdataAggregatorSampleApiserverApiserviceYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-authdelegator.yaml":           testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-authreader.yaml":              testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-rc.yaml":                      testExtendedTestdataAggregatorSampleApiserverRcYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-sa.yaml":                      testExtendedTestdataAggregatorSampleApiserverSaYaml,
-	"test/extended/testdata/aggregator/sample-apiserver-service.yaml":                 testExtendedTestdataAggregatorSampleApiserverServiceYaml,
-	"test/extended/testdata/build-extended/bc-scripts-by-url.yaml":                    testExtendedTestdataBuildExtendedBcScriptsByUrlYaml,
-	"test/extended/testdata/build-extended/bc-scripts-in-repo.yaml":                   testExtendedTestdataBuildExtendedBcScriptsInRepoYaml,
-	"test/extended/testdata/build-extended/bc-scripts-in-the-image.yaml":              testExtendedTestdataBuildExtendedBcScriptsInTheImageYaml,
-	"test/extended/testdata/build-extended/jvm-runner-with-scripts.yaml":              testExtendedTestdataBuildExtendedJvmRunnerWithScriptsYaml,
-	"test/extended/testdata/build-extended/jvm-runner.yaml":                           testExtendedTestdataBuildExtendedJvmRunnerYaml,
-	"test/extended/testdata/build-pruning/default-group-build-config.yaml":            testExtendedTestdataBuildPruningDefaultGroupBuildConfigYaml,
-	"test/extended/testdata/build-pruning/default-legacy-build-config.yaml":           testExtendedTestdataBuildPruningDefaultLegacyBuildConfigYaml,
-	"test/extended/testdata/build-pruning/errored-build-config.yaml":                  testExtendedTestdataBuildPruningErroredBuildConfigYaml,
-	"test/extended/testdata/build-pruning/failed-build-config.yaml":                   testExtendedTestdataBuildPruningFailedBuildConfigYaml,
-	"test/extended/testdata/build-pruning/imagestream.yaml":                           testExtendedTestdataBuildPruningImagestreamYaml,
-	"test/extended/testdata/build-pruning/successful-build-config.yaml":               testExtendedTestdataBuildPruningSuccessfulBuildConfigYaml,
-	"test/extended/testdata/build-quota/.s2i/bin/assemble":                            testExtendedTestdataBuildQuotaS2iBinAssemble,
-	"test/extended/testdata/build-quota/Dockerfile":                                   testExtendedTestdataBuildQuotaDockerfile,
-	"test/extended/testdata/build-secrets/Dockerfile":                                 testExtendedTestdataBuildSecretsDockerfile,
-	"test/extended/testdata/build-secrets/s2i-binary-dir/.s2i/bin/assemble":           testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinAssemble,
-	"test/extended/testdata/build-secrets/s2i-binary-dir/.s2i/bin/run":                testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinRun,
-	"test/extended/testdata/build-secrets/s2i-binary-dir/Gemfile":                     testExtendedTestdataBuildSecretsS2iBinaryDirGemfile,
-	"test/extended/testdata/build-secrets/s2i-binary-dir/config.ru":                   testExtendedTestdataBuildSecretsS2iBinaryDirConfigRu,
-	"test/extended/testdata/build-secrets/test-docker-build.json":                     testExtendedTestdataBuildSecretsTestDockerBuildJson,
-	"test/extended/testdata/build-secrets/test-is.json":                               testExtendedTestdataBuildSecretsTestIsJson,
-	"test/extended/testdata/build-secrets/test-s2i-build.json":                        testExtendedTestdataBuildSecretsTestS2iBuildJson,
-	"test/extended/testdata/build-secrets/test-secret-2.json":                         testExtendedTestdataBuildSecretsTestSecret2Json,
-	"test/extended/testdata/build-secrets/test-secret.json":                           testExtendedTestdataBuildSecretsTestSecretJson,
-	"test/extended/testdata/build-timing/Dockerfile":                                  testExtendedTestdataBuildTimingDockerfile,
-	"test/extended/testdata/build-timing/s2i-binary-dir/.s2i/bin/assemble":            testExtendedTestdataBuildTimingS2iBinaryDirS2iBinAssemble,
-	"test/extended/testdata/build-timing/s2i-binary-dir/.s2i/bin/run":                 testExtendedTestdataBuildTimingS2iBinaryDirS2iBinRun,
-	"test/extended/testdata/build-timing/s2i-binary-dir/Gemfile":                      testExtendedTestdataBuildTimingS2iBinaryDirGemfile,
-	"test/extended/testdata/build-timing/s2i-binary-dir/config.ru":                    testExtendedTestdataBuildTimingS2iBinaryDirConfigRu,
-	"test/extended/testdata/build-timing/test-docker-build.json":                      testExtendedTestdataBuildTimingTestDockerBuildJson,
-	"test/extended/testdata/build-timing/test-is.json":                                testExtendedTestdataBuildTimingTestIsJson,
-	"test/extended/testdata/build-timing/test-s2i-build.json":                         testExtendedTestdataBuildTimingTestS2iBuildJson,
-	"test/extended/testdata/config-map-jenkins-slave-pods.yaml":                       testExtendedTestdataConfigMapJenkinsSlavePodsYaml,
-	"test/extended/testdata/cluster/master-vert.yaml":                                 testExtendedTestdataClusterMasterVertYaml,
-	"test/extended/testdata/custom-secret-builder/Dockerfile":                         testExtendedTestdataCustomSecretBuilderDockerfile,
-	"test/extended/testdata/custom-secret-builder/build.sh":                           testExtendedTestdataCustomSecretBuilderBuildSh,
-	"test/extended/testdata/deployments/custom-deployment.yaml":                       testExtendedTestdataDeploymentsCustomDeploymentYaml,
-	"test/extended/testdata/deployments/deployment-example.yaml":                      testExtendedTestdataDeploymentsDeploymentExampleYaml,
-	"test/extended/testdata/deployments/deployment-history-limit.yaml":                testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml,
-	"test/extended/testdata/deployments/deployment-ignores-deployer.yaml":             testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml,
-	"test/extended/testdata/deployments/deployment-image-resolution.yaml":             testExtendedTestdataDeploymentsDeploymentImageResolutionYaml,
-	"test/extended/testdata/deployments/deployment-min-ready-seconds.yaml":            testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml,
-	"test/extended/testdata/deployments/deployment-simple.yaml":                       testExtendedTestdataDeploymentsDeploymentSimpleYaml,
-	"test/extended/testdata/deployments/deployment-trigger.yaml":                      testExtendedTestdataDeploymentsDeploymentTriggerYaml,
-	"test/extended/testdata/deployments/deployment-with-ref-env.yaml":                 testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml,
-	"test/extended/testdata/deployments/failing-pre-hook.yaml":                        testExtendedTestdataDeploymentsFailingPreHookYaml,
-	"test/extended/testdata/deployments/generation-test.yaml":                         testExtendedTestdataDeploymentsGenerationTestYaml,
-	"test/extended/testdata/deployments/multi-ict-deployment.yaml":                    testExtendedTestdataDeploymentsMultiIctDeploymentYaml,
-	"test/extended/testdata/deployments/paused-deployment.yaml":                       testExtendedTestdataDeploymentsPausedDeploymentYaml,
-	"test/extended/testdata/deployments/readiness-test.yaml":                          testExtendedTestdataDeploymentsReadinessTestYaml,
-	"test/extended/testdata/deployments/tag-images-deployment.yaml":                   testExtendedTestdataDeploymentsTagImagesDeploymentYaml,
-	"test/extended/testdata/deployments/test-deployment-broken.yaml":                  testExtendedTestdataDeploymentsTestDeploymentBrokenYaml,
-	"test/extended/testdata/deployments/test-deployment-test.yaml":                    testExtendedTestdataDeploymentsTestDeploymentTestYaml,
-	"test/extended/testdata/forcepull-test.json":                                      testExtendedTestdataForcepullTestJson,
-	"test/extended/testdata/gssapi/config/kubeconfig":                                 testExtendedTestdataGssapiConfigKubeconfig,
-	"test/extended/testdata/gssapi/config/oauth_config.json":                          testExtendedTestdataGssapiConfigOauth_configJson,
-	"test/extended/testdata/gssapi/fedora/base/Dockerfile":                            testExtendedTestdataGssapiFedoraBaseDockerfile,
-	"test/extended/testdata/gssapi/fedora/kerberos/Dockerfile":                        testExtendedTestdataGssapiFedoraKerberosDockerfile,
-	"test/extended/testdata/gssapi/fedora/kerberos_configured/Dockerfile":             testExtendedTestdataGssapiFedoraKerberos_configuredDockerfile,
-	"test/extended/testdata/gssapi/proxy/Dockerfile":                                  testExtendedTestdataGssapiProxyDockerfile,
-	"test/extended/testdata/gssapi/proxy/configure.sh":                                testExtendedTestdataGssapiProxyConfigureSh,
-	"test/extended/testdata/gssapi/proxy/gssapiproxy-buildconfig.yaml":                testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml,
-	"test/extended/testdata/gssapi/proxy/gssapiproxy-deploymentconfig.yaml":           testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml,
-	"test/extended/testdata/gssapi/proxy/gssapiproxy-imagestream.yaml":                testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml,
-	"test/extended/testdata/gssapi/proxy/gssapiproxy-service.yaml":                    testExtendedTestdataGssapiProxyGssapiproxyServiceYaml,
-	"test/extended/testdata/gssapi/proxy/healthz":                                     testExtendedTestdataGssapiProxyHealthz,
-	"test/extended/testdata/gssapi/proxy/kadm5.acl":                                   testExtendedTestdataGssapiProxyKadm5Acl,
-	"test/extended/testdata/gssapi/proxy/kdc.conf":                                    testExtendedTestdataGssapiProxyKdcConf,
-	"test/extended/testdata/gssapi/proxy/krb5.conf":                                   testExtendedTestdataGssapiProxyKrb5Conf,
-	"test/extended/testdata/gssapi/proxy/proxy.conf":                                  testExtendedTestdataGssapiProxyProxyConf,
-	"test/extended/testdata/gssapi/scripts/gssapi-tests.sh":                           testExtendedTestdataGssapiScriptsGssapiTestsSh,
-	"test/extended/testdata/gssapi/scripts/test-wrapper.sh":                           testExtendedTestdataGssapiScriptsTestWrapperSh,
-	"test/extended/testdata/gssapi/ubuntu/base/Dockerfile":                            testExtendedTestdataGssapiUbuntuBaseDockerfile,
-	"test/extended/testdata/gssapi/ubuntu/kerberos/Dockerfile":                        testExtendedTestdataGssapiUbuntuKerberosDockerfile,
-	"test/extended/testdata/gssapi/ubuntu/kerberos_configured/Dockerfile":             testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfile,
-	"test/extended/testdata/hello-builder/Dockerfile":                                 testExtendedTestdataHelloBuilderDockerfile,
-	"test/extended/testdata/hello-builder/scripts/assemble":                           testExtendedTestdataHelloBuilderScriptsAssemble,
-	"test/extended/testdata/hello-builder/scripts/run":                                testExtendedTestdataHelloBuilderScriptsRun,
-	"test/extended/testdata/idling-echo-server-rc.yaml":                               testExtendedTestdataIdlingEchoServerRcYaml,
-	"test/extended/testdata/idling-echo-server.yaml":                                  testExtendedTestdataIdlingEchoServerYaml,
-	"test/extended/testdata/image-pull-secrets/dc-with-new-pull-secret.yaml":          testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml,
-	"test/extended/testdata/image-pull-secrets/dc-with-old-pull-secret.yaml":          testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml,
-	"test/extended/testdata/image-pull-secrets/pod-with-new-pull-secret.yaml":         testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml,
-	"test/extended/testdata/image-pull-secrets/pod-with-no-pull-secret.yaml":          testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml,
-	"test/extended/testdata/image-pull-secrets/pod-with-old-pull-secret.yaml":         testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml,
-	"test/extended/testdata/imagestream-jenkins-slave-pods.yaml":                      testExtendedTestdataImagestreamJenkinsSlavePodsYaml,
-	"test/extended/testdata/imagestreamtag-jenkins-slave-pods.yaml":                   testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml,
-	"test/extended/testdata/incremental-auth-build.json":                              testExtendedTestdataIncrementalAuthBuildJson,
-	"test/extended/testdata/jenkins-plugin/build-job-clone.xml":                       testExtendedTestdataJenkinsPluginBuildJobCloneXml,
-	"test/extended/testdata/jenkins-plugin/build-job-slave.xml":                       testExtendedTestdataJenkinsPluginBuildJobSlaveXml,
-	"test/extended/testdata/jenkins-plugin/build-job.xml":                             testExtendedTestdataJenkinsPluginBuildJobXml,
-	"test/extended/testdata/jenkins-plugin/build-with-env-job.xml":                    testExtendedTestdataJenkinsPluginBuildWithEnvJobXml,
-	"test/extended/testdata/jenkins-plugin/build-with-exec-steps.xml":                 testExtendedTestdataJenkinsPluginBuildWithExecStepsXml,
-	"test/extended/testdata/jenkins-plugin/create-job.xml":                            testExtendedTestdataJenkinsPluginCreateJobXml,
-	"test/extended/testdata/jenkins-plugin/delete-job-keys.xml":                       testExtendedTestdataJenkinsPluginDeleteJobKeysXml,
-	"test/extended/testdata/jenkins-plugin/delete-job-labels.xml":                     testExtendedTestdataJenkinsPluginDeleteJobLabelsXml,
-	"test/extended/testdata/jenkins-plugin/delete-job.xml":                            testExtendedTestdataJenkinsPluginDeleteJobXml,
-	"test/extended/testdata/jenkins-plugin/imagestream-scm-dsl-job.xml":               testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml,
-	"test/extended/testdata/jenkins-plugin/imagestream-scm-job.xml":                   testExtendedTestdataJenkinsPluginImagestreamScmJobXml,
-	"test/extended/testdata/jenkins-plugin/multitag-job.xml":                          testExtendedTestdataJenkinsPluginMultitagJobXml,
-	"test/extended/testdata/jenkins-plugin/multitag-template.json":                    testExtendedTestdataJenkinsPluginMultitagTemplateJson,
-	"test/extended/testdata/jenkins-plugin/shared-resources-template.json":            testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson,
-	"test/extended/testdata/jenkins-slave-template.yaml":                              testExtendedTestdataJenkinsSlaveTemplateYaml,
-	"test/extended/testdata/jobs/v1.yaml":                                             testExtendedTestdataJobsV1Yaml,
-	"test/extended/testdata/ldap/ldapserver-buildconfig.json":                         testExtendedTestdataLdapLdapserverBuildconfigJson,
-	"test/extended/testdata/ldap/ldapserver-deploymentconfig.json":                    testExtendedTestdataLdapLdapserverDeploymentconfigJson,
-	"test/extended/testdata/ldap/ldapserver-imagestream-testenv.json":                 testExtendedTestdataLdapLdapserverImagestreamTestenvJson,
-	"test/extended/testdata/ldap/ldapserver-imagestream.json":                         testExtendedTestdataLdapLdapserverImagestreamJson,
-	"test/extended/testdata/ldap/ldapserver-service.json":                             testExtendedTestdataLdapLdapserverServiceJson,
-	"test/extended/testdata/long_names/Dockerfile":                                    testExtendedTestdataLong_namesDockerfile,
-	"test/extended/testdata/long_names/fixture.json":                                  testExtendedTestdataLong_namesFixtureJson,
-	"test/extended/testdata/reencrypt-serving-cert.yaml":                              testExtendedTestdataReencryptServingCertYaml,
-	"test/extended/testdata/roles/empty-role.yaml":                                    testExtendedTestdataRolesEmptyRoleYaml,
-	"test/extended/testdata/roles/policy-clusterroles.yaml":                           testExtendedTestdataRolesPolicyClusterrolesYaml,
-	"test/extended/testdata/roles/policy-roles.yaml":                                  testExtendedTestdataRolesPolicyRolesYaml,
-	"test/extended/testdata/router-http-echo-server.yaml":                             testExtendedTestdataRouterHttpEchoServerYaml,
-	"test/extended/testdata/router-metrics.yaml":                                      testExtendedTestdataRouterMetricsYaml,
-	"test/extended/testdata/run_policy/parallel-bc.yaml":                              testExtendedTestdataRun_policyParallelBcYaml,
-	"test/extended/testdata/run_policy/serial-bc.yaml":                                testExtendedTestdataRun_policySerialBcYaml,
-	"test/extended/testdata/run_policy/serial-latest-only-bc.yaml":                    testExtendedTestdataRun_policySerialLatestOnlyBcYaml,
-	"test/extended/testdata/s2i-build-root.yaml":                                      testExtendedTestdataS2iBuildRootYaml,
-	"test/extended/testdata/s2i-dropcaps/root-access-build.yaml":                      testExtendedTestdataS2iDropcapsRootAccessBuildYaml,
-	"test/extended/testdata/s2i-dropcaps/rootable-ruby/Dockerfile":                    testExtendedTestdataS2iDropcapsRootableRubyDockerfile,
-	"test/extended/testdata/s2i-dropcaps/rootable-ruby/adduser":                       testExtendedTestdataS2iDropcapsRootableRubyAdduser,
-	"test/extended/testdata/s2i-dropcaps/rootable-ruby/assemble":                      testExtendedTestdataS2iDropcapsRootableRubyAssemble,
-	"test/extended/testdata/sample-image-stream.json":                                 testExtendedTestdataSampleImageStreamJson,
-	"test/extended/testdata/samplepipeline-withenvs.yaml":                             testExtendedTestdataSamplepipelineWithenvsYaml,
-	"test/extended/testdata/scoped-router.yaml":                                       testExtendedTestdataScopedRouterYaml,
-	"test/extended/testdata/service-serving-cert/nginx-serving-cert.conf":             testExtendedTestdataServiceServingCertNginxServingCertConf,
-	"test/extended/testdata/signer-buildconfig.yaml":                                  testExtendedTestdataSignerBuildconfigYaml,
-	"test/extended/testdata/statusfail-assemble/.s2i/bin/assemble":                    testExtendedTestdataStatusfailAssembleS2iBinAssemble,
-	"test/extended/testdata/statusfail-failedassemble.yaml":                           testExtendedTestdataStatusfailFailedassembleYaml,
-	"test/extended/testdata/statusfail-fetchbuilderimage.yaml":                        testExtendedTestdataStatusfailFetchbuilderimageYaml,
-	"test/extended/testdata/statusfail-fetchsourcedocker.yaml":                        testExtendedTestdataStatusfailFetchsourcedockerYaml,
-	"test/extended/testdata/statusfail-fetchsources2i.yaml":                           testExtendedTestdataStatusfailFetchsources2iYaml,
-	"test/extended/testdata/statusfail-genericreason.yaml":                            testExtendedTestdataStatusfailGenericreasonYaml,
-	"test/extended/testdata/statusfail-postcommithook.yaml":                           testExtendedTestdataStatusfailPostcommithookYaml,
-	"test/extended/testdata/statusfail-pushtoregistry.yaml":                           testExtendedTestdataStatusfailPushtoregistryYaml,
-	"test/extended/testdata/statusfail-runtimeartifacts.yaml":                         testExtendedTestdataStatusfailRuntimeartifactsYaml,
-	"test/extended/testdata/sti-environment-build-app/.sti/environment":               testExtendedTestdataStiEnvironmentBuildAppStiEnvironment,
-	"test/extended/testdata/sti-environment-build-app/Gemfile":                        testExtendedTestdataStiEnvironmentBuildAppGemfile,
-	"test/extended/testdata/sti-environment-build-app/config.ru":                      testExtendedTestdataStiEnvironmentBuildAppConfigRu,
-	"test/extended/testdata/templates/templateinstance_objectkinds.yaml":              testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml,
-	"test/extended/testdata/test-auth-build.yaml":                                     testExtendedTestdataTestAuthBuildYaml,
-	"test/extended/testdata/test-bc-with-pr-ref.yaml":                                 testExtendedTestdataTestBcWithPrRefYaml,
-	"test/extended/testdata/test-build-app/Dockerfile":                                testExtendedTestdataTestBuildAppDockerfile,
-	"test/extended/testdata/test-build-app/Gemfile":                                   testExtendedTestdataTestBuildAppGemfile,
-	"test/extended/testdata/test-build-app/config.ru":                                 testExtendedTestdataTestBuildAppConfigRu,
-	"test/extended/testdata/test-build-podsvc.json":                                   testExtendedTestdataTestBuildPodsvcJson,
-	"test/extended/testdata/test-build-postcommit.json":                               testExtendedTestdataTestBuildPostcommitJson,
-	"test/extended/testdata/test-build-proxy.yaml":                                    testExtendedTestdataTestBuildProxyYaml,
-	"test/extended/testdata/test-build-revision.json":                                 testExtendedTestdataTestBuildRevisionJson,
-	"test/extended/testdata/test-build.json":                                          testExtendedTestdataTestBuildJson,
-	"test/extended/testdata/test-buildconfigsecretinjector.yaml":                      testExtendedTestdataTestBuildconfigsecretinjectorYaml,
-	"test/extended/testdata/test-cds-dockerbuild.json":                                testExtendedTestdataTestCdsDockerbuildJson,
-	"test/extended/testdata/test-cds-sourcebuild.json":                                testExtendedTestdataTestCdsSourcebuildJson,
-	"test/extended/testdata/test-cli-debug.yaml":                                      testExtendedTestdataTestCliDebugYaml,
-	"test/extended/testdata/test-context-build.json":                                  testExtendedTestdataTestContextBuildJson,
-	"test/extended/testdata/test-custom-build.json":                                   testExtendedTestdataTestCustomBuildJson,
-	"test/extended/testdata/test-docker-build-pullsecret.json":                        testExtendedTestdataTestDockerBuildPullsecretJson,
-	"test/extended/testdata/test-docker-build-quota.json":                             testExtendedTestdataTestDockerBuildQuotaJson,
-	"test/extended/testdata/test-docker-build.json":                                   testExtendedTestdataTestDockerBuildJson,
-	"test/extended/testdata/test-docker-no-outputname.json":                           testExtendedTestdataTestDockerNoOutputnameJson,
-	"test/extended/testdata/test-env-build.json":                                      testExtendedTestdataTestEnvBuildJson,
-	"test/extended/testdata/test-env-pod.json":                                        testExtendedTestdataTestEnvPodJson,
-	"test/extended/testdata/test-gitserver-tokenauth.yaml":                            testExtendedTestdataTestGitserverTokenauthYaml,
-	"test/extended/testdata/test-gitserver.yaml":                                      testExtendedTestdataTestGitserverYaml,
-	"test/extended/testdata/test-imagesource-build.yaml":                              testExtendedTestdataTestImagesourceBuildYaml,
-	"test/extended/testdata/test-nosrc-build.json":                                    testExtendedTestdataTestNosrcBuildJson,
-	"test/extended/testdata/test-s2i-build-quota.json":                                testExtendedTestdataTestS2iBuildQuotaJson,
-	"test/extended/testdata/test-s2i-build.json":                                      testExtendedTestdataTestS2iBuildJson,
-	"test/extended/testdata/test-s2i-no-outputname.json":                              testExtendedTestdataTestS2iNoOutputnameJson,
-	"test/extended/testdata/test-secret-build.json":                                   testExtendedTestdataTestSecretBuildJson,
-	"test/extended/testdata/test-secret.json":                                         testExtendedTestdataTestSecretJson,
-	"test/extended/testdata/valuefrom/failed-docker-build-value-from-config.yaml":     testExtendedTestdataValuefromFailedDockerBuildValueFromConfigYaml,
-	"test/extended/testdata/valuefrom/failed-sti-build-value-from-config.yaml":        testExtendedTestdataValuefromFailedStiBuildValueFromConfigYaml,
+	"test/extended/testdata/aggregator/kube-system-auth-reader.yaml": testExtendedTestdataAggregatorKubeSystemAuthReaderYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-apiservice.yaml": testExtendedTestdataAggregatorSampleApiserverApiserviceYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-authdelegator.yaml": testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-authreader.yaml": testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-rc.yaml": testExtendedTestdataAggregatorSampleApiserverRcYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-sa.yaml": testExtendedTestdataAggregatorSampleApiserverSaYaml,
+	"test/extended/testdata/aggregator/sample-apiserver-service.yaml": testExtendedTestdataAggregatorSampleApiserverServiceYaml,
+	"test/extended/testdata/build-extended/bc-scripts-by-url.yaml": testExtendedTestdataBuildExtendedBcScriptsByUrlYaml,
+	"test/extended/testdata/build-extended/bc-scripts-in-repo.yaml": testExtendedTestdataBuildExtendedBcScriptsInRepoYaml,
+	"test/extended/testdata/build-extended/bc-scripts-in-the-image.yaml": testExtendedTestdataBuildExtendedBcScriptsInTheImageYaml,
+	"test/extended/testdata/build-extended/jvm-runner-with-scripts.yaml": testExtendedTestdataBuildExtendedJvmRunnerWithScriptsYaml,
+	"test/extended/testdata/build-extended/jvm-runner.yaml": testExtendedTestdataBuildExtendedJvmRunnerYaml,
+	"test/extended/testdata/build-pruning/default-group-build-config.yaml": testExtendedTestdataBuildPruningDefaultGroupBuildConfigYaml,
+	"test/extended/testdata/build-pruning/default-legacy-build-config.yaml": testExtendedTestdataBuildPruningDefaultLegacyBuildConfigYaml,
+	"test/extended/testdata/build-pruning/errored-build-config.yaml": testExtendedTestdataBuildPruningErroredBuildConfigYaml,
+	"test/extended/testdata/build-pruning/failed-build-config.yaml": testExtendedTestdataBuildPruningFailedBuildConfigYaml,
+	"test/extended/testdata/build-pruning/imagestream.yaml": testExtendedTestdataBuildPruningImagestreamYaml,
+	"test/extended/testdata/build-pruning/successful-build-config.yaml": testExtendedTestdataBuildPruningSuccessfulBuildConfigYaml,
+	"test/extended/testdata/build-quota/.s2i/bin/assemble": testExtendedTestdataBuildQuotaS2iBinAssemble,
+	"test/extended/testdata/build-quota/Dockerfile": testExtendedTestdataBuildQuotaDockerfile,
+	"test/extended/testdata/build-secrets/Dockerfile": testExtendedTestdataBuildSecretsDockerfile,
+	"test/extended/testdata/build-secrets/s2i-binary-dir/.s2i/bin/assemble": testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinAssemble,
+	"test/extended/testdata/build-secrets/s2i-binary-dir/.s2i/bin/run": testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinRun,
+	"test/extended/testdata/build-secrets/s2i-binary-dir/Gemfile": testExtendedTestdataBuildSecretsS2iBinaryDirGemfile,
+	"test/extended/testdata/build-secrets/s2i-binary-dir/config.ru": testExtendedTestdataBuildSecretsS2iBinaryDirConfigRu,
+	"test/extended/testdata/build-secrets/test-docker-build.json": testExtendedTestdataBuildSecretsTestDockerBuildJson,
+	"test/extended/testdata/build-secrets/test-is.json": testExtendedTestdataBuildSecretsTestIsJson,
+	"test/extended/testdata/build-secrets/test-s2i-build.json": testExtendedTestdataBuildSecretsTestS2iBuildJson,
+	"test/extended/testdata/build-secrets/test-secret-2.json": testExtendedTestdataBuildSecretsTestSecret2Json,
+	"test/extended/testdata/build-secrets/test-secret.json": testExtendedTestdataBuildSecretsTestSecretJson,
+	"test/extended/testdata/build-timing/Dockerfile": testExtendedTestdataBuildTimingDockerfile,
+	"test/extended/testdata/build-timing/s2i-binary-dir/.s2i/bin/assemble": testExtendedTestdataBuildTimingS2iBinaryDirS2iBinAssemble,
+	"test/extended/testdata/build-timing/s2i-binary-dir/.s2i/bin/run": testExtendedTestdataBuildTimingS2iBinaryDirS2iBinRun,
+	"test/extended/testdata/build-timing/s2i-binary-dir/Gemfile": testExtendedTestdataBuildTimingS2iBinaryDirGemfile,
+	"test/extended/testdata/build-timing/s2i-binary-dir/config.ru": testExtendedTestdataBuildTimingS2iBinaryDirConfigRu,
+	"test/extended/testdata/build-timing/test-docker-build.json": testExtendedTestdataBuildTimingTestDockerBuildJson,
+	"test/extended/testdata/build-timing/test-is.json": testExtendedTestdataBuildTimingTestIsJson,
+	"test/extended/testdata/build-timing/test-s2i-build.json": testExtendedTestdataBuildTimingTestS2iBuildJson,
+	"test/extended/testdata/cluster/master-vert.yaml": testExtendedTestdataClusterMasterVertYaml,
+	"test/extended/testdata/config-map-jenkins-slave-pods.yaml": testExtendedTestdataConfigMapJenkinsSlavePodsYaml,
+	"test/extended/testdata/custom-secret-builder/Dockerfile": testExtendedTestdataCustomSecretBuilderDockerfile,
+	"test/extended/testdata/custom-secret-builder/build.sh": testExtendedTestdataCustomSecretBuilderBuildSh,
+	"test/extended/testdata/deployments/custom-deployment.yaml": testExtendedTestdataDeploymentsCustomDeploymentYaml,
+	"test/extended/testdata/deployments/deployment-example.yaml": testExtendedTestdataDeploymentsDeploymentExampleYaml,
+	"test/extended/testdata/deployments/deployment-history-limit.yaml": testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml,
+	"test/extended/testdata/deployments/deployment-ignores-deployer.yaml": testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml,
+	"test/extended/testdata/deployments/deployment-image-resolution.yaml": testExtendedTestdataDeploymentsDeploymentImageResolutionYaml,
+	"test/extended/testdata/deployments/deployment-min-ready-seconds.yaml": testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml,
+	"test/extended/testdata/deployments/deployment-simple.yaml": testExtendedTestdataDeploymentsDeploymentSimpleYaml,
+	"test/extended/testdata/deployments/deployment-trigger.yaml": testExtendedTestdataDeploymentsDeploymentTriggerYaml,
+	"test/extended/testdata/deployments/deployment-with-ref-env.yaml": testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml,
+	"test/extended/testdata/deployments/failing-pre-hook.yaml": testExtendedTestdataDeploymentsFailingPreHookYaml,
+	"test/extended/testdata/deployments/generation-test.yaml": testExtendedTestdataDeploymentsGenerationTestYaml,
+	"test/extended/testdata/deployments/multi-ict-deployment.yaml": testExtendedTestdataDeploymentsMultiIctDeploymentYaml,
+	"test/extended/testdata/deployments/paused-deployment.yaml": testExtendedTestdataDeploymentsPausedDeploymentYaml,
+	"test/extended/testdata/deployments/readiness-test.yaml": testExtendedTestdataDeploymentsReadinessTestYaml,
+	"test/extended/testdata/deployments/tag-images-deployment.yaml": testExtendedTestdataDeploymentsTagImagesDeploymentYaml,
+	"test/extended/testdata/deployments/test-deployment-broken.yaml": testExtendedTestdataDeploymentsTestDeploymentBrokenYaml,
+	"test/extended/testdata/deployments/test-deployment-test.yaml": testExtendedTestdataDeploymentsTestDeploymentTestYaml,
+	"test/extended/testdata/forcepull-test.json": testExtendedTestdataForcepullTestJson,
+	"test/extended/testdata/gssapi/config/kubeconfig": testExtendedTestdataGssapiConfigKubeconfig,
+	"test/extended/testdata/gssapi/config/oauth_config.json": testExtendedTestdataGssapiConfigOauth_configJson,
+	"test/extended/testdata/gssapi/fedora/base/Dockerfile": testExtendedTestdataGssapiFedoraBaseDockerfile,
+	"test/extended/testdata/gssapi/fedora/kerberos/Dockerfile": testExtendedTestdataGssapiFedoraKerberosDockerfile,
+	"test/extended/testdata/gssapi/fedora/kerberos_configured/Dockerfile": testExtendedTestdataGssapiFedoraKerberos_configuredDockerfile,
+	"test/extended/testdata/gssapi/proxy/Dockerfile": testExtendedTestdataGssapiProxyDockerfile,
+	"test/extended/testdata/gssapi/proxy/configure.sh": testExtendedTestdataGssapiProxyConfigureSh,
+	"test/extended/testdata/gssapi/proxy/gssapiproxy-buildconfig.yaml": testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml,
+	"test/extended/testdata/gssapi/proxy/gssapiproxy-deploymentconfig.yaml": testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml,
+	"test/extended/testdata/gssapi/proxy/gssapiproxy-imagestream.yaml": testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml,
+	"test/extended/testdata/gssapi/proxy/gssapiproxy-service.yaml": testExtendedTestdataGssapiProxyGssapiproxyServiceYaml,
+	"test/extended/testdata/gssapi/proxy/healthz": testExtendedTestdataGssapiProxyHealthz,
+	"test/extended/testdata/gssapi/proxy/kadm5.acl": testExtendedTestdataGssapiProxyKadm5Acl,
+	"test/extended/testdata/gssapi/proxy/kdc.conf": testExtendedTestdataGssapiProxyKdcConf,
+	"test/extended/testdata/gssapi/proxy/krb5.conf": testExtendedTestdataGssapiProxyKrb5Conf,
+	"test/extended/testdata/gssapi/proxy/proxy.conf": testExtendedTestdataGssapiProxyProxyConf,
+	"test/extended/testdata/gssapi/scripts/gssapi-tests.sh": testExtendedTestdataGssapiScriptsGssapiTestsSh,
+	"test/extended/testdata/gssapi/scripts/test-wrapper.sh": testExtendedTestdataGssapiScriptsTestWrapperSh,
+	"test/extended/testdata/gssapi/ubuntu/base/Dockerfile": testExtendedTestdataGssapiUbuntuBaseDockerfile,
+	"test/extended/testdata/gssapi/ubuntu/kerberos/Dockerfile": testExtendedTestdataGssapiUbuntuKerberosDockerfile,
+	"test/extended/testdata/gssapi/ubuntu/kerberos_configured/Dockerfile": testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfile,
+	"test/extended/testdata/hello-builder/Dockerfile": testExtendedTestdataHelloBuilderDockerfile,
+	"test/extended/testdata/hello-builder/scripts/assemble": testExtendedTestdataHelloBuilderScriptsAssemble,
+	"test/extended/testdata/hello-builder/scripts/run": testExtendedTestdataHelloBuilderScriptsRun,
+	"test/extended/testdata/idling-echo-server-rc.yaml": testExtendedTestdataIdlingEchoServerRcYaml,
+	"test/extended/testdata/idling-echo-server.yaml": testExtendedTestdataIdlingEchoServerYaml,
+	"test/extended/testdata/image-pull-secrets/dc-with-new-pull-secret.yaml": testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml,
+	"test/extended/testdata/image-pull-secrets/dc-with-old-pull-secret.yaml": testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml,
+	"test/extended/testdata/image-pull-secrets/pod-with-new-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml,
+	"test/extended/testdata/image-pull-secrets/pod-with-no-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml,
+	"test/extended/testdata/image-pull-secrets/pod-with-old-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml,
+	"test/extended/testdata/imagestream-jenkins-slave-pods.yaml": testExtendedTestdataImagestreamJenkinsSlavePodsYaml,
+	"test/extended/testdata/imagestreamtag-jenkins-slave-pods.yaml": testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml,
+	"test/extended/testdata/incremental-auth-build.json": testExtendedTestdataIncrementalAuthBuildJson,
+	"test/extended/testdata/jenkins-plugin/build-job-clone.xml": testExtendedTestdataJenkinsPluginBuildJobCloneXml,
+	"test/extended/testdata/jenkins-plugin/build-job-slave.xml": testExtendedTestdataJenkinsPluginBuildJobSlaveXml,
+	"test/extended/testdata/jenkins-plugin/build-job.xml": testExtendedTestdataJenkinsPluginBuildJobXml,
+	"test/extended/testdata/jenkins-plugin/build-with-env-job.xml": testExtendedTestdataJenkinsPluginBuildWithEnvJobXml,
+	"test/extended/testdata/jenkins-plugin/build-with-exec-steps.xml": testExtendedTestdataJenkinsPluginBuildWithExecStepsXml,
+	"test/extended/testdata/jenkins-plugin/create-job.xml": testExtendedTestdataJenkinsPluginCreateJobXml,
+	"test/extended/testdata/jenkins-plugin/delete-job-keys.xml": testExtendedTestdataJenkinsPluginDeleteJobKeysXml,
+	"test/extended/testdata/jenkins-plugin/delete-job-labels.xml": testExtendedTestdataJenkinsPluginDeleteJobLabelsXml,
+	"test/extended/testdata/jenkins-plugin/delete-job.xml": testExtendedTestdataJenkinsPluginDeleteJobXml,
+	"test/extended/testdata/jenkins-plugin/imagestream-scm-dsl-job.xml": testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml,
+	"test/extended/testdata/jenkins-plugin/imagestream-scm-job.xml": testExtendedTestdataJenkinsPluginImagestreamScmJobXml,
+	"test/extended/testdata/jenkins-plugin/multitag-job.xml": testExtendedTestdataJenkinsPluginMultitagJobXml,
+	"test/extended/testdata/jenkins-plugin/multitag-template.json": testExtendedTestdataJenkinsPluginMultitagTemplateJson,
+	"test/extended/testdata/jenkins-plugin/shared-resources-template.json": testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson,
+	"test/extended/testdata/jenkins-slave-template.yaml": testExtendedTestdataJenkinsSlaveTemplateYaml,
+	"test/extended/testdata/jobs/v1.yaml": testExtendedTestdataJobsV1Yaml,
+	"test/extended/testdata/ldap/ldapserver-buildconfig.json": testExtendedTestdataLdapLdapserverBuildconfigJson,
+	"test/extended/testdata/ldap/ldapserver-deploymentconfig.json": testExtendedTestdataLdapLdapserverDeploymentconfigJson,
+	"test/extended/testdata/ldap/ldapserver-imagestream-testenv.json": testExtendedTestdataLdapLdapserverImagestreamTestenvJson,
+	"test/extended/testdata/ldap/ldapserver-imagestream.json": testExtendedTestdataLdapLdapserverImagestreamJson,
+	"test/extended/testdata/ldap/ldapserver-service.json": testExtendedTestdataLdapLdapserverServiceJson,
+	"test/extended/testdata/long_names/Dockerfile": testExtendedTestdataLong_namesDockerfile,
+	"test/extended/testdata/long_names/fixture.json": testExtendedTestdataLong_namesFixtureJson,
+	"test/extended/testdata/reencrypt-serving-cert.yaml": testExtendedTestdataReencryptServingCertYaml,
+	"test/extended/testdata/roles/empty-role.yaml": testExtendedTestdataRolesEmptyRoleYaml,
+	"test/extended/testdata/roles/policy-clusterroles.yaml": testExtendedTestdataRolesPolicyClusterrolesYaml,
+	"test/extended/testdata/roles/policy-roles.yaml": testExtendedTestdataRolesPolicyRolesYaml,
+	"test/extended/testdata/router-http-echo-server.yaml": testExtendedTestdataRouterHttpEchoServerYaml,
+	"test/extended/testdata/router-metrics.yaml": testExtendedTestdataRouterMetricsYaml,
+	"test/extended/testdata/run_policy/parallel-bc.yaml": testExtendedTestdataRun_policyParallelBcYaml,
+	"test/extended/testdata/run_policy/serial-bc.yaml": testExtendedTestdataRun_policySerialBcYaml,
+	"test/extended/testdata/run_policy/serial-latest-only-bc.yaml": testExtendedTestdataRun_policySerialLatestOnlyBcYaml,
+	"test/extended/testdata/s2i-build-root.yaml": testExtendedTestdataS2iBuildRootYaml,
+	"test/extended/testdata/s2i-dropcaps/root-access-build.yaml": testExtendedTestdataS2iDropcapsRootAccessBuildYaml,
+	"test/extended/testdata/s2i-dropcaps/rootable-ruby/Dockerfile": testExtendedTestdataS2iDropcapsRootableRubyDockerfile,
+	"test/extended/testdata/s2i-dropcaps/rootable-ruby/adduser": testExtendedTestdataS2iDropcapsRootableRubyAdduser,
+	"test/extended/testdata/s2i-dropcaps/rootable-ruby/assemble": testExtendedTestdataS2iDropcapsRootableRubyAssemble,
+	"test/extended/testdata/sample-image-stream.json": testExtendedTestdataSampleImageStreamJson,
+	"test/extended/testdata/samplepipeline-withenvs.yaml": testExtendedTestdataSamplepipelineWithenvsYaml,
+	"test/extended/testdata/scoped-router.yaml": testExtendedTestdataScopedRouterYaml,
+	"test/extended/testdata/service-serving-cert/nginx-serving-cert.conf": testExtendedTestdataServiceServingCertNginxServingCertConf,
+	"test/extended/testdata/signer-buildconfig.yaml": testExtendedTestdataSignerBuildconfigYaml,
+	"test/extended/testdata/statusfail-assemble/.s2i/bin/assemble": testExtendedTestdataStatusfailAssembleS2iBinAssemble,
+	"test/extended/testdata/statusfail-failedassemble.yaml": testExtendedTestdataStatusfailFailedassembleYaml,
+	"test/extended/testdata/statusfail-fetchbuilderimage.yaml": testExtendedTestdataStatusfailFetchbuilderimageYaml,
+	"test/extended/testdata/statusfail-fetchsourcedocker.yaml": testExtendedTestdataStatusfailFetchsourcedockerYaml,
+	"test/extended/testdata/statusfail-fetchsources2i.yaml": testExtendedTestdataStatusfailFetchsources2iYaml,
+	"test/extended/testdata/statusfail-genericreason.yaml": testExtendedTestdataStatusfailGenericreasonYaml,
+	"test/extended/testdata/statusfail-postcommithook.yaml": testExtendedTestdataStatusfailPostcommithookYaml,
+	"test/extended/testdata/statusfail-pushtoregistry.yaml": testExtendedTestdataStatusfailPushtoregistryYaml,
+	"test/extended/testdata/statusfail-runtimeartifacts.yaml": testExtendedTestdataStatusfailRuntimeartifactsYaml,
+	"test/extended/testdata/sti-environment-build-app/.sti/environment": testExtendedTestdataStiEnvironmentBuildAppStiEnvironment,
+	"test/extended/testdata/sti-environment-build-app/Gemfile": testExtendedTestdataStiEnvironmentBuildAppGemfile,
+	"test/extended/testdata/sti-environment-build-app/config.ru": testExtendedTestdataStiEnvironmentBuildAppConfigRu,
+	"test/extended/testdata/templates/templateinstance_objectkinds.yaml": testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml,
+	"test/extended/testdata/test-auth-build.yaml": testExtendedTestdataTestAuthBuildYaml,
+	"test/extended/testdata/test-bc-with-pr-ref.yaml": testExtendedTestdataTestBcWithPrRefYaml,
+	"test/extended/testdata/test-build-app/Dockerfile": testExtendedTestdataTestBuildAppDockerfile,
+	"test/extended/testdata/test-build-app/Gemfile": testExtendedTestdataTestBuildAppGemfile,
+	"test/extended/testdata/test-build-app/config.ru": testExtendedTestdataTestBuildAppConfigRu,
+	"test/extended/testdata/test-build-podsvc.json": testExtendedTestdataTestBuildPodsvcJson,
+	"test/extended/testdata/test-build-postcommit.json": testExtendedTestdataTestBuildPostcommitJson,
+	"test/extended/testdata/test-build-proxy.yaml": testExtendedTestdataTestBuildProxyYaml,
+	"test/extended/testdata/test-build-revision.json": testExtendedTestdataTestBuildRevisionJson,
+	"test/extended/testdata/test-build.json": testExtendedTestdataTestBuildJson,
+	"test/extended/testdata/test-buildconfigsecretinjector.yaml": testExtendedTestdataTestBuildconfigsecretinjectorYaml,
+	"test/extended/testdata/test-cds-dockerbuild.json": testExtendedTestdataTestCdsDockerbuildJson,
+	"test/extended/testdata/test-cds-sourcebuild.json": testExtendedTestdataTestCdsSourcebuildJson,
+	"test/extended/testdata/test-cli-debug.yaml": testExtendedTestdataTestCliDebugYaml,
+	"test/extended/testdata/test-context-build.json": testExtendedTestdataTestContextBuildJson,
+	"test/extended/testdata/test-custom-build.json": testExtendedTestdataTestCustomBuildJson,
+	"test/extended/testdata/test-docker-build-pullsecret.json": testExtendedTestdataTestDockerBuildPullsecretJson,
+	"test/extended/testdata/test-docker-build-quota.json": testExtendedTestdataTestDockerBuildQuotaJson,
+	"test/extended/testdata/test-docker-build.json": testExtendedTestdataTestDockerBuildJson,
+	"test/extended/testdata/test-docker-no-outputname.json": testExtendedTestdataTestDockerNoOutputnameJson,
+	"test/extended/testdata/test-env-build.json": testExtendedTestdataTestEnvBuildJson,
+	"test/extended/testdata/test-env-pod.json": testExtendedTestdataTestEnvPodJson,
+	"test/extended/testdata/test-gitserver-tokenauth.yaml": testExtendedTestdataTestGitserverTokenauthYaml,
+	"test/extended/testdata/test-gitserver.yaml": testExtendedTestdataTestGitserverYaml,
+	"test/extended/testdata/test-imagesource-build.yaml": testExtendedTestdataTestImagesourceBuildYaml,
+	"test/extended/testdata/test-nosrc-build.json": testExtendedTestdataTestNosrcBuildJson,
+	"test/extended/testdata/test-s2i-build-quota.json": testExtendedTestdataTestS2iBuildQuotaJson,
+	"test/extended/testdata/test-s2i-build.json": testExtendedTestdataTestS2iBuildJson,
+	"test/extended/testdata/test-s2i-no-outputname.json": testExtendedTestdataTestS2iNoOutputnameJson,
+	"test/extended/testdata/test-secret-build.json": testExtendedTestdataTestSecretBuildJson,
+	"test/extended/testdata/test-secret.json": testExtendedTestdataTestSecretJson,
+	"test/extended/testdata/valuefrom/failed-docker-build-value-from-config.yaml": testExtendedTestdataValuefromFailedDockerBuildValueFromConfigYaml,
+	"test/extended/testdata/valuefrom/failed-sti-build-value-from-config.yaml": testExtendedTestdataValuefromFailedStiBuildValueFromConfigYaml,
 	"test/extended/testdata/valuefrom/successful-docker-build-value-from-config.yaml": testExtendedTestdataValuefromSuccessfulDockerBuildValueFromConfigYaml,
-	"test/extended/testdata/valuefrom/successful-sti-build-value-from-config.yaml":    testExtendedTestdataValuefromSuccessfulStiBuildValueFromConfigYaml,
-	"test/extended/testdata/valuefrom/test-configmap.yaml":                            testExtendedTestdataValuefromTestConfigmapYaml,
-	"test/extended/testdata/valuefrom/test-is.json":                                   testExtendedTestdataValuefromTestIsJson,
-	"test/extended/testdata/valuefrom/test-secret.yaml":                               testExtendedTestdataValuefromTestSecretYaml,
-	"test/extended/testdata/weighted-router.yaml":                                     testExtendedTestdataWeightedRouterYaml,
-	"test/integration/testdata/project-request-template-with-quota.yaml":              testIntegrationTestdataProjectRequestTemplateWithQuotaYaml,
-	"test/integration/testdata/test-buildcli-beta2.json":                              testIntegrationTestdataTestBuildcliBeta2Json,
-	"test/integration/testdata/test-buildcli.json":                                    testIntegrationTestdataTestBuildcliJson,
-	"test/integration/testdata/test-deployment-config.yaml":                           testIntegrationTestdataTestDeploymentConfigYaml,
-	"test/integration/testdata/test-egress-network-policy.json":                       testIntegrationTestdataTestEgressNetworkPolicyJson,
-	"test/integration/testdata/test-image-stream-mapping.json":                        testIntegrationTestdataTestImageStreamMappingJson,
-	"test/integration/testdata/test-image-stream.json":                                testIntegrationTestdataTestImageStreamJson,
-	"test/integration/testdata/test-image.json":                                       testIntegrationTestdataTestImageJson,
-	"test/integration/testdata/test-route.json":                                       testIntegrationTestdataTestRouteJson,
-	"test/integration/testdata/test-service-with-finalizer.json":                      testIntegrationTestdataTestServiceWithFinalizerJson,
-	"test/integration/testdata/test-service.json":                                     testIntegrationTestdataTestServiceJson,
-	"examples/db-templates/mariadb-ephemeral-template.json":                           examplesDbTemplatesMariadbEphemeralTemplateJson,
-	"examples/db-templates/mariadb-persistent-template.json":                          examplesDbTemplatesMariadbPersistentTemplateJson,
-	"examples/db-templates/mongodb-ephemeral-template.json":                           examplesDbTemplatesMongodbEphemeralTemplateJson,
-	"examples/db-templates/mongodb-persistent-template.json":                          examplesDbTemplatesMongodbPersistentTemplateJson,
-	"examples/db-templates/mysql-ephemeral-template.json":                             examplesDbTemplatesMysqlEphemeralTemplateJson,
-	"examples/db-templates/mysql-persistent-template.json":                            examplesDbTemplatesMysqlPersistentTemplateJson,
-	"examples/db-templates/postgresql-ephemeral-template.json":                        examplesDbTemplatesPostgresqlEphemeralTemplateJson,
-	"examples/db-templates/postgresql-persistent-template.json":                       examplesDbTemplatesPostgresqlPersistentTemplateJson,
-	"examples/db-templates/redis-ephemeral-template.json":                             examplesDbTemplatesRedisEphemeralTemplateJson,
-	"examples/db-templates/redis-persistent-template.json":                            examplesDbTemplatesRedisPersistentTemplateJson,
-	"examples/image-streams/image-streams-centos7.json":                               examplesImageStreamsImageStreamsCentos7Json,
-	"examples/image-streams/image-streams-rhel7.json":                                 examplesImageStreamsImageStreamsRhel7Json,
-	"examples/sample-app/application-template-custombuild.json":                       examplesSampleAppApplicationTemplateCustombuildJson,
-	"examples/sample-app/application-template-dockerbuild.json":                       examplesSampleAppApplicationTemplateDockerbuildJson,
-	"examples/sample-app/application-template-pullspecbuild.json":                     examplesSampleAppApplicationTemplatePullspecbuildJson,
-	"examples/sample-app/application-template-stibuild.json":                          examplesSampleAppApplicationTemplateStibuildJson,
-	"examples/sample-app/cleanup.sh":                                                  examplesSampleAppCleanupSh,
-	"examples/sample-app/github-webhook-example.json":                                 examplesSampleAppGithubWebhookExampleJson,
-	"examples/sample-app/pullimages.sh":                                               examplesSampleAppPullimagesSh,
-	"examples/prometheus/prometheus.yaml":                                             examplesPrometheusPrometheusYaml,
-	"examples/hello-openshift/Dockerfile":                                             examplesHelloOpenshiftDockerfile,
-	"examples/hello-openshift/hello-pod.json":                                         examplesHelloOpenshiftHelloPodJson,
-	"examples/hello-openshift/hello-project.json":                                     examplesHelloOpenshiftHelloProjectJson,
-	"examples/jenkins/application-template.json":                                      examplesJenkinsApplicationTemplateJson,
-	"examples/jenkins/jenkins-ephemeral-template.json":                                examplesJenkinsJenkinsEphemeralTemplateJson,
-	"examples/jenkins/jenkins-persistent-template.json":                               examplesJenkinsJenkinsPersistentTemplateJson,
-	"examples/jenkins/pipeline/bluegreen-pipeline.yaml":                               examplesJenkinsPipelineBluegreenPipelineYaml,
-	"examples/jenkins/pipeline/mapsapp-pipeline.yaml":                                 examplesJenkinsPipelineMapsappPipelineYaml,
-	"examples/jenkins/pipeline/maven-pipeline.yaml":                                   examplesJenkinsPipelineMavenPipelineYaml,
-	"examples/jenkins/pipeline/openshift-client-plugin-pipeline.yaml":                 examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml,
-	"examples/jenkins/pipeline/samplepipeline.yaml":                                   examplesJenkinsPipelineSamplepipelineYaml,
+	"test/extended/testdata/valuefrom/successful-sti-build-value-from-config.yaml": testExtendedTestdataValuefromSuccessfulStiBuildValueFromConfigYaml,
+	"test/extended/testdata/valuefrom/test-configmap.yaml": testExtendedTestdataValuefromTestConfigmapYaml,
+	"test/extended/testdata/valuefrom/test-is.json": testExtendedTestdataValuefromTestIsJson,
+	"test/extended/testdata/valuefrom/test-secret.yaml": testExtendedTestdataValuefromTestSecretYaml,
+	"test/extended/testdata/weighted-router.yaml": testExtendedTestdataWeightedRouterYaml,
+	"test/integration/testdata/project-request-template-with-quota.yaml": testIntegrationTestdataProjectRequestTemplateWithQuotaYaml,
+	"test/integration/testdata/test-buildcli-beta2.json": testIntegrationTestdataTestBuildcliBeta2Json,
+	"test/integration/testdata/test-buildcli.json": testIntegrationTestdataTestBuildcliJson,
+	"test/integration/testdata/test-deployment-config.yaml": testIntegrationTestdataTestDeploymentConfigYaml,
+	"test/integration/testdata/test-egress-network-policy.json": testIntegrationTestdataTestEgressNetworkPolicyJson,
+	"test/integration/testdata/test-image-stream-mapping.json": testIntegrationTestdataTestImageStreamMappingJson,
+	"test/integration/testdata/test-image-stream.json": testIntegrationTestdataTestImageStreamJson,
+	"test/integration/testdata/test-image.json": testIntegrationTestdataTestImageJson,
+	"test/integration/testdata/test-route.json": testIntegrationTestdataTestRouteJson,
+	"test/integration/testdata/test-service-with-finalizer.json": testIntegrationTestdataTestServiceWithFinalizerJson,
+	"test/integration/testdata/test-service.json": testIntegrationTestdataTestServiceJson,
+	"examples/db-templates/mariadb-ephemeral-template.json": examplesDbTemplatesMariadbEphemeralTemplateJson,
+	"examples/db-templates/mariadb-persistent-template.json": examplesDbTemplatesMariadbPersistentTemplateJson,
+	"examples/db-templates/mongodb-ephemeral-template.json": examplesDbTemplatesMongodbEphemeralTemplateJson,
+	"examples/db-templates/mongodb-persistent-template.json": examplesDbTemplatesMongodbPersistentTemplateJson,
+	"examples/db-templates/mysql-ephemeral-template.json": examplesDbTemplatesMysqlEphemeralTemplateJson,
+	"examples/db-templates/mysql-persistent-template.json": examplesDbTemplatesMysqlPersistentTemplateJson,
+	"examples/db-templates/postgresql-ephemeral-template.json": examplesDbTemplatesPostgresqlEphemeralTemplateJson,
+	"examples/db-templates/postgresql-persistent-template.json": examplesDbTemplatesPostgresqlPersistentTemplateJson,
+	"examples/db-templates/redis-ephemeral-template.json": examplesDbTemplatesRedisEphemeralTemplateJson,
+	"examples/db-templates/redis-persistent-template.json": examplesDbTemplatesRedisPersistentTemplateJson,
+	"examples/image-streams/image-streams-centos7.json": examplesImageStreamsImageStreamsCentos7Json,
+	"examples/image-streams/image-streams-rhel7.json": examplesImageStreamsImageStreamsRhel7Json,
+	"examples/sample-app/application-template-custombuild.json": examplesSampleAppApplicationTemplateCustombuildJson,
+	"examples/sample-app/application-template-dockerbuild.json": examplesSampleAppApplicationTemplateDockerbuildJson,
+	"examples/sample-app/application-template-pullspecbuild.json": examplesSampleAppApplicationTemplatePullspecbuildJson,
+	"examples/sample-app/application-template-stibuild.json": examplesSampleAppApplicationTemplateStibuildJson,
+	"examples/sample-app/cleanup.sh": examplesSampleAppCleanupSh,
+	"examples/sample-app/github-webhook-example.json": examplesSampleAppGithubWebhookExampleJson,
+	"examples/sample-app/pullimages.sh": examplesSampleAppPullimagesSh,
+	"examples/quickstarts/cakephp-mysql-persistent.json": examplesQuickstartsCakephpMysqlPersistentJson,
+	"examples/quickstarts/cakephp-mysql.json": examplesQuickstartsCakephpMysqlJson,
+	"examples/quickstarts/dancer-mysql-persistent.json": examplesQuickstartsDancerMysqlPersistentJson,
+	"examples/quickstarts/dancer-mysql.json": examplesQuickstartsDancerMysqlJson,
+	"examples/quickstarts/django-postgresql-persistent.json": examplesQuickstartsDjangoPostgresqlPersistentJson,
+	"examples/quickstarts/django-postgresql.json": examplesQuickstartsDjangoPostgresqlJson,
+	"examples/quickstarts/httpd.json": examplesQuickstartsHttpdJson,
+	"examples/quickstarts/nodejs-mongodb-persistent.json": examplesQuickstartsNodejsMongodbPersistentJson,
+	"examples/quickstarts/nodejs-mongodb.json": examplesQuickstartsNodejsMongodbJson,
+	"examples/quickstarts/rails-postgresql-persistent.json": examplesQuickstartsRailsPostgresqlPersistentJson,
+	"examples/quickstarts/rails-postgresql.json": examplesQuickstartsRailsPostgresqlJson,
+	"examples/prometheus/prometheus.yaml": examplesPrometheusPrometheusYaml,
+	"examples/hello-openshift/Dockerfile": examplesHelloOpenshiftDockerfile,
+	"examples/hello-openshift/hello-pod.json": examplesHelloOpenshiftHelloPodJson,
+	"examples/hello-openshift/hello-project.json": examplesHelloOpenshiftHelloProjectJson,
+	"examples/jenkins/application-template.json": examplesJenkinsApplicationTemplateJson,
+	"examples/jenkins/jenkins-ephemeral-template.json": examplesJenkinsJenkinsEphemeralTemplateJson,
+	"examples/jenkins/jenkins-persistent-template.json": examplesJenkinsJenkinsPersistentTemplateJson,
+	"examples/jenkins/pipeline/bluegreen-pipeline.yaml": examplesJenkinsPipelineBluegreenPipelineYaml,
+	"examples/jenkins/pipeline/mapsapp-pipeline.yaml": examplesJenkinsPipelineMapsappPipelineYaml,
+	"examples/jenkins/pipeline/maven-pipeline.yaml": examplesJenkinsPipelineMavenPipelineYaml,
+	"examples/jenkins/pipeline/openshift-client-plugin-pipeline.yaml": examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml,
+	"examples/jenkins/pipeline/samplepipeline.yaml": examplesJenkinsPipelineSamplepipelineYaml,
 }
 
 // AssetDir returns the file names below a certain
@@ -21242,81 +27202,93 @@ type bintree struct {
 	Func     func() (*asset, error)
 	Children map[string]*bintree
 }
-
 var _bintree = &bintree{nil, map[string]*bintree{
 	"examples": &bintree{nil, map[string]*bintree{
 		"db-templates": &bintree{nil, map[string]*bintree{
-			"mariadb-ephemeral-template.json":     &bintree{examplesDbTemplatesMariadbEphemeralTemplateJson, map[string]*bintree{}},
-			"mariadb-persistent-template.json":    &bintree{examplesDbTemplatesMariadbPersistentTemplateJson, map[string]*bintree{}},
-			"mongodb-ephemeral-template.json":     &bintree{examplesDbTemplatesMongodbEphemeralTemplateJson, map[string]*bintree{}},
-			"mongodb-persistent-template.json":    &bintree{examplesDbTemplatesMongodbPersistentTemplateJson, map[string]*bintree{}},
-			"mysql-ephemeral-template.json":       &bintree{examplesDbTemplatesMysqlEphemeralTemplateJson, map[string]*bintree{}},
-			"mysql-persistent-template.json":      &bintree{examplesDbTemplatesMysqlPersistentTemplateJson, map[string]*bintree{}},
-			"postgresql-ephemeral-template.json":  &bintree{examplesDbTemplatesPostgresqlEphemeralTemplateJson, map[string]*bintree{}},
+			"mariadb-ephemeral-template.json": &bintree{examplesDbTemplatesMariadbEphemeralTemplateJson, map[string]*bintree{}},
+			"mariadb-persistent-template.json": &bintree{examplesDbTemplatesMariadbPersistentTemplateJson, map[string]*bintree{}},
+			"mongodb-ephemeral-template.json": &bintree{examplesDbTemplatesMongodbEphemeralTemplateJson, map[string]*bintree{}},
+			"mongodb-persistent-template.json": &bintree{examplesDbTemplatesMongodbPersistentTemplateJson, map[string]*bintree{}},
+			"mysql-ephemeral-template.json": &bintree{examplesDbTemplatesMysqlEphemeralTemplateJson, map[string]*bintree{}},
+			"mysql-persistent-template.json": &bintree{examplesDbTemplatesMysqlPersistentTemplateJson, map[string]*bintree{}},
+			"postgresql-ephemeral-template.json": &bintree{examplesDbTemplatesPostgresqlEphemeralTemplateJson, map[string]*bintree{}},
 			"postgresql-persistent-template.json": &bintree{examplesDbTemplatesPostgresqlPersistentTemplateJson, map[string]*bintree{}},
-			"redis-ephemeral-template.json":       &bintree{examplesDbTemplatesRedisEphemeralTemplateJson, map[string]*bintree{}},
-			"redis-persistent-template.json":      &bintree{examplesDbTemplatesRedisPersistentTemplateJson, map[string]*bintree{}},
+			"redis-ephemeral-template.json": &bintree{examplesDbTemplatesRedisEphemeralTemplateJson, map[string]*bintree{}},
+			"redis-persistent-template.json": &bintree{examplesDbTemplatesRedisPersistentTemplateJson, map[string]*bintree{}},
 		}},
 		"hello-openshift": &bintree{nil, map[string]*bintree{
-			"Dockerfile":         &bintree{examplesHelloOpenshiftDockerfile, map[string]*bintree{}},
-			"hello-pod.json":     &bintree{examplesHelloOpenshiftHelloPodJson, map[string]*bintree{}},
+			"Dockerfile": &bintree{examplesHelloOpenshiftDockerfile, map[string]*bintree{}},
+			"hello-pod.json": &bintree{examplesHelloOpenshiftHelloPodJson, map[string]*bintree{}},
 			"hello-project.json": &bintree{examplesHelloOpenshiftHelloProjectJson, map[string]*bintree{}},
 		}},
 		"image-streams": &bintree{nil, map[string]*bintree{
 			"image-streams-centos7.json": &bintree{examplesImageStreamsImageStreamsCentos7Json, map[string]*bintree{}},
-			"image-streams-rhel7.json":   &bintree{examplesImageStreamsImageStreamsRhel7Json, map[string]*bintree{}},
+			"image-streams-rhel7.json": &bintree{examplesImageStreamsImageStreamsRhel7Json, map[string]*bintree{}},
 		}},
 		"jenkins": &bintree{nil, map[string]*bintree{
-			"application-template.json":        &bintree{examplesJenkinsApplicationTemplateJson, map[string]*bintree{}},
-			"jenkins-ephemeral-template.json":  &bintree{examplesJenkinsJenkinsEphemeralTemplateJson, map[string]*bintree{}},
+			"application-template.json": &bintree{examplesJenkinsApplicationTemplateJson, map[string]*bintree{}},
+			"jenkins-ephemeral-template.json": &bintree{examplesJenkinsJenkinsEphemeralTemplateJson, map[string]*bintree{}},
 			"jenkins-persistent-template.json": &bintree{examplesJenkinsJenkinsPersistentTemplateJson, map[string]*bintree{}},
 			"pipeline": &bintree{nil, map[string]*bintree{
-				"bluegreen-pipeline.yaml":               &bintree{examplesJenkinsPipelineBluegreenPipelineYaml, map[string]*bintree{}},
-				"mapsapp-pipeline.yaml":                 &bintree{examplesJenkinsPipelineMapsappPipelineYaml, map[string]*bintree{}},
-				"maven-pipeline.yaml":                   &bintree{examplesJenkinsPipelineMavenPipelineYaml, map[string]*bintree{}},
+				"bluegreen-pipeline.yaml": &bintree{examplesJenkinsPipelineBluegreenPipelineYaml, map[string]*bintree{}},
+				"mapsapp-pipeline.yaml": &bintree{examplesJenkinsPipelineMapsappPipelineYaml, map[string]*bintree{}},
+				"maven-pipeline.yaml": &bintree{examplesJenkinsPipelineMavenPipelineYaml, map[string]*bintree{}},
 				"openshift-client-plugin-pipeline.yaml": &bintree{examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml, map[string]*bintree{}},
-				"samplepipeline.yaml":                   &bintree{examplesJenkinsPipelineSamplepipelineYaml, map[string]*bintree{}},
+				"samplepipeline.yaml": &bintree{examplesJenkinsPipelineSamplepipelineYaml, map[string]*bintree{}},
 			}},
 		}},
 		"prometheus": &bintree{nil, map[string]*bintree{
 			"prometheus.yaml": &bintree{examplesPrometheusPrometheusYaml, map[string]*bintree{}},
 		}},
+		"quickstarts": &bintree{nil, map[string]*bintree{
+			"cakephp-mysql-persistent.json": &bintree{examplesQuickstartsCakephpMysqlPersistentJson, map[string]*bintree{}},
+			"cakephp-mysql.json": &bintree{examplesQuickstartsCakephpMysqlJson, map[string]*bintree{}},
+			"dancer-mysql-persistent.json": &bintree{examplesQuickstartsDancerMysqlPersistentJson, map[string]*bintree{}},
+			"dancer-mysql.json": &bintree{examplesQuickstartsDancerMysqlJson, map[string]*bintree{}},
+			"django-postgresql-persistent.json": &bintree{examplesQuickstartsDjangoPostgresqlPersistentJson, map[string]*bintree{}},
+			"django-postgresql.json": &bintree{examplesQuickstartsDjangoPostgresqlJson, map[string]*bintree{}},
+			"httpd.json": &bintree{examplesQuickstartsHttpdJson, map[string]*bintree{}},
+			"nodejs-mongodb-persistent.json": &bintree{examplesQuickstartsNodejsMongodbPersistentJson, map[string]*bintree{}},
+			"nodejs-mongodb.json": &bintree{examplesQuickstartsNodejsMongodbJson, map[string]*bintree{}},
+			"rails-postgresql-persistent.json": &bintree{examplesQuickstartsRailsPostgresqlPersistentJson, map[string]*bintree{}},
+			"rails-postgresql.json": &bintree{examplesQuickstartsRailsPostgresqlJson, map[string]*bintree{}},
+		}},
 		"sample-app": &bintree{nil, map[string]*bintree{
-			"application-template-custombuild.json":   &bintree{examplesSampleAppApplicationTemplateCustombuildJson, map[string]*bintree{}},
-			"application-template-dockerbuild.json":   &bintree{examplesSampleAppApplicationTemplateDockerbuildJson, map[string]*bintree{}},
+			"application-template-custombuild.json": &bintree{examplesSampleAppApplicationTemplateCustombuildJson, map[string]*bintree{}},
+			"application-template-dockerbuild.json": &bintree{examplesSampleAppApplicationTemplateDockerbuildJson, map[string]*bintree{}},
 			"application-template-pullspecbuild.json": &bintree{examplesSampleAppApplicationTemplatePullspecbuildJson, map[string]*bintree{}},
-			"application-template-stibuild.json":      &bintree{examplesSampleAppApplicationTemplateStibuildJson, map[string]*bintree{}},
-			"cleanup.sh":                              &bintree{examplesSampleAppCleanupSh, map[string]*bintree{}},
-			"github-webhook-example.json":             &bintree{examplesSampleAppGithubWebhookExampleJson, map[string]*bintree{}},
-			"pullimages.sh":                           &bintree{examplesSampleAppPullimagesSh, map[string]*bintree{}},
+			"application-template-stibuild.json": &bintree{examplesSampleAppApplicationTemplateStibuildJson, map[string]*bintree{}},
+			"cleanup.sh": &bintree{examplesSampleAppCleanupSh, map[string]*bintree{}},
+			"github-webhook-example.json": &bintree{examplesSampleAppGithubWebhookExampleJson, map[string]*bintree{}},
+			"pullimages.sh": &bintree{examplesSampleAppPullimagesSh, map[string]*bintree{}},
 		}},
 	}},
 	"test": &bintree{nil, map[string]*bintree{
 		"extended": &bintree{nil, map[string]*bintree{
 			"testdata": &bintree{nil, map[string]*bintree{
 				"aggregator": &bintree{nil, map[string]*bintree{
-					"kube-system-auth-reader.yaml":        &bintree{testExtendedTestdataAggregatorKubeSystemAuthReaderYaml, map[string]*bintree{}},
-					"sample-apiserver-apiservice.yaml":    &bintree{testExtendedTestdataAggregatorSampleApiserverApiserviceYaml, map[string]*bintree{}},
+					"kube-system-auth-reader.yaml": &bintree{testExtendedTestdataAggregatorKubeSystemAuthReaderYaml, map[string]*bintree{}},
+					"sample-apiserver-apiservice.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverApiserviceYaml, map[string]*bintree{}},
 					"sample-apiserver-authdelegator.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml, map[string]*bintree{}},
-					"sample-apiserver-authreader.yaml":    &bintree{testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml, map[string]*bintree{}},
-					"sample-apiserver-rc.yaml":            &bintree{testExtendedTestdataAggregatorSampleApiserverRcYaml, map[string]*bintree{}},
-					"sample-apiserver-sa.yaml":            &bintree{testExtendedTestdataAggregatorSampleApiserverSaYaml, map[string]*bintree{}},
-					"sample-apiserver-service.yaml":       &bintree{testExtendedTestdataAggregatorSampleApiserverServiceYaml, map[string]*bintree{}},
+					"sample-apiserver-authreader.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml, map[string]*bintree{}},
+					"sample-apiserver-rc.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverRcYaml, map[string]*bintree{}},
+					"sample-apiserver-sa.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverSaYaml, map[string]*bintree{}},
+					"sample-apiserver-service.yaml": &bintree{testExtendedTestdataAggregatorSampleApiserverServiceYaml, map[string]*bintree{}},
 				}},
 				"build-extended": &bintree{nil, map[string]*bintree{
-					"bc-scripts-by-url.yaml":       &bintree{testExtendedTestdataBuildExtendedBcScriptsByUrlYaml, map[string]*bintree{}},
-					"bc-scripts-in-repo.yaml":      &bintree{testExtendedTestdataBuildExtendedBcScriptsInRepoYaml, map[string]*bintree{}},
+					"bc-scripts-by-url.yaml": &bintree{testExtendedTestdataBuildExtendedBcScriptsByUrlYaml, map[string]*bintree{}},
+					"bc-scripts-in-repo.yaml": &bintree{testExtendedTestdataBuildExtendedBcScriptsInRepoYaml, map[string]*bintree{}},
 					"bc-scripts-in-the-image.yaml": &bintree{testExtendedTestdataBuildExtendedBcScriptsInTheImageYaml, map[string]*bintree{}},
 					"jvm-runner-with-scripts.yaml": &bintree{testExtendedTestdataBuildExtendedJvmRunnerWithScriptsYaml, map[string]*bintree{}},
-					"jvm-runner.yaml":              &bintree{testExtendedTestdataBuildExtendedJvmRunnerYaml, map[string]*bintree{}},
+					"jvm-runner.yaml": &bintree{testExtendedTestdataBuildExtendedJvmRunnerYaml, map[string]*bintree{}},
 				}},
 				"build-pruning": &bintree{nil, map[string]*bintree{
-					"default-group-build-config.yaml":  &bintree{testExtendedTestdataBuildPruningDefaultGroupBuildConfigYaml, map[string]*bintree{}},
+					"default-group-build-config.yaml": &bintree{testExtendedTestdataBuildPruningDefaultGroupBuildConfigYaml, map[string]*bintree{}},
 					"default-legacy-build-config.yaml": &bintree{testExtendedTestdataBuildPruningDefaultLegacyBuildConfigYaml, map[string]*bintree{}},
-					"errored-build-config.yaml":        &bintree{testExtendedTestdataBuildPruningErroredBuildConfigYaml, map[string]*bintree{}},
-					"failed-build-config.yaml":         &bintree{testExtendedTestdataBuildPruningFailedBuildConfigYaml, map[string]*bintree{}},
-					"imagestream.yaml":                 &bintree{testExtendedTestdataBuildPruningImagestreamYaml, map[string]*bintree{}},
-					"successful-build-config.yaml":     &bintree{testExtendedTestdataBuildPruningSuccessfulBuildConfigYaml, map[string]*bintree{}},
+					"errored-build-config.yaml": &bintree{testExtendedTestdataBuildPruningErroredBuildConfigYaml, map[string]*bintree{}},
+					"failed-build-config.yaml": &bintree{testExtendedTestdataBuildPruningFailedBuildConfigYaml, map[string]*bintree{}},
+					"imagestream.yaml": &bintree{testExtendedTestdataBuildPruningImagestreamYaml, map[string]*bintree{}},
+					"successful-build-config.yaml": &bintree{testExtendedTestdataBuildPruningSuccessfulBuildConfigYaml, map[string]*bintree{}},
 				}},
 				"build-quota": &bintree{nil, map[string]*bintree{
 					".s2i": &bintree{nil, map[string]*bintree{
@@ -21332,17 +27304,17 @@ var _bintree = &bintree{nil, map[string]*bintree{
 						".s2i": &bintree{nil, map[string]*bintree{
 							"bin": &bintree{nil, map[string]*bintree{
 								"assemble": &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinAssemble, map[string]*bintree{}},
-								"run":      &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinRun, map[string]*bintree{}},
+								"run": &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirS2iBinRun, map[string]*bintree{}},
 							}},
 						}},
-						"Gemfile":   &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirGemfile, map[string]*bintree{}},
+						"Gemfile": &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirGemfile, map[string]*bintree{}},
 						"config.ru": &bintree{testExtendedTestdataBuildSecretsS2iBinaryDirConfigRu, map[string]*bintree{}},
 					}},
 					"test-docker-build.json": &bintree{testExtendedTestdataBuildSecretsTestDockerBuildJson, map[string]*bintree{}},
-					"test-is.json":           &bintree{testExtendedTestdataBuildSecretsTestIsJson, map[string]*bintree{}},
-					"test-s2i-build.json":    &bintree{testExtendedTestdataBuildSecretsTestS2iBuildJson, map[string]*bintree{}},
-					"test-secret-2.json":     &bintree{testExtendedTestdataBuildSecretsTestSecret2Json, map[string]*bintree{}},
-					"test-secret.json":       &bintree{testExtendedTestdataBuildSecretsTestSecretJson, map[string]*bintree{}},
+					"test-is.json": &bintree{testExtendedTestdataBuildSecretsTestIsJson, map[string]*bintree{}},
+					"test-s2i-build.json": &bintree{testExtendedTestdataBuildSecretsTestS2iBuildJson, map[string]*bintree{}},
+					"test-secret-2.json": &bintree{testExtendedTestdataBuildSecretsTestSecret2Json, map[string]*bintree{}},
+					"test-secret.json": &bintree{testExtendedTestdataBuildSecretsTestSecretJson, map[string]*bintree{}},
 				}},
 				"build-timing": &bintree{nil, map[string]*bintree{
 					"Dockerfile": &bintree{testExtendedTestdataBuildTimingDockerfile, map[string]*bintree{}},
@@ -21350,47 +27322,47 @@ var _bintree = &bintree{nil, map[string]*bintree{
 						".s2i": &bintree{nil, map[string]*bintree{
 							"bin": &bintree{nil, map[string]*bintree{
 								"assemble": &bintree{testExtendedTestdataBuildTimingS2iBinaryDirS2iBinAssemble, map[string]*bintree{}},
-								"run":      &bintree{testExtendedTestdataBuildTimingS2iBinaryDirS2iBinRun, map[string]*bintree{}},
+								"run": &bintree{testExtendedTestdataBuildTimingS2iBinaryDirS2iBinRun, map[string]*bintree{}},
 							}},
 						}},
-						"Gemfile":   &bintree{testExtendedTestdataBuildTimingS2iBinaryDirGemfile, map[string]*bintree{}},
+						"Gemfile": &bintree{testExtendedTestdataBuildTimingS2iBinaryDirGemfile, map[string]*bintree{}},
 						"config.ru": &bintree{testExtendedTestdataBuildTimingS2iBinaryDirConfigRu, map[string]*bintree{}},
 					}},
 					"test-docker-build.json": &bintree{testExtendedTestdataBuildTimingTestDockerBuildJson, map[string]*bintree{}},
-					"test-is.json":           &bintree{testExtendedTestdataBuildTimingTestIsJson, map[string]*bintree{}},
-					"test-s2i-build.json":    &bintree{testExtendedTestdataBuildTimingTestS2iBuildJson, map[string]*bintree{}},
+					"test-is.json": &bintree{testExtendedTestdataBuildTimingTestIsJson, map[string]*bintree{}},
+					"test-s2i-build.json": &bintree{testExtendedTestdataBuildTimingTestS2iBuildJson, map[string]*bintree{}},
 				}},
-				"config-map-jenkins-slave-pods.yaml": &bintree{testExtendedTestdataConfigMapJenkinsSlavePodsYaml, map[string]*bintree{}},
 				"cluster": &bintree{nil, map[string]*bintree{
 					"master-vert.yaml": &bintree{testExtendedTestdataClusterMasterVertYaml, map[string]*bintree{}},
 				}},
+				"config-map-jenkins-slave-pods.yaml": &bintree{testExtendedTestdataConfigMapJenkinsSlavePodsYaml, map[string]*bintree{}},
 				"custom-secret-builder": &bintree{nil, map[string]*bintree{
 					"Dockerfile": &bintree{testExtendedTestdataCustomSecretBuilderDockerfile, map[string]*bintree{}},
-					"build.sh":   &bintree{testExtendedTestdataCustomSecretBuilderBuildSh, map[string]*bintree{}},
+					"build.sh": &bintree{testExtendedTestdataCustomSecretBuilderBuildSh, map[string]*bintree{}},
 				}},
 				"deployments": &bintree{nil, map[string]*bintree{
-					"custom-deployment.yaml":            &bintree{testExtendedTestdataDeploymentsCustomDeploymentYaml, map[string]*bintree{}},
-					"deployment-example.yaml":           &bintree{testExtendedTestdataDeploymentsDeploymentExampleYaml, map[string]*bintree{}},
-					"deployment-history-limit.yaml":     &bintree{testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml, map[string]*bintree{}},
-					"deployment-ignores-deployer.yaml":  &bintree{testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml, map[string]*bintree{}},
-					"deployment-image-resolution.yaml":  &bintree{testExtendedTestdataDeploymentsDeploymentImageResolutionYaml, map[string]*bintree{}},
+					"custom-deployment.yaml": &bintree{testExtendedTestdataDeploymentsCustomDeploymentYaml, map[string]*bintree{}},
+					"deployment-example.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentExampleYaml, map[string]*bintree{}},
+					"deployment-history-limit.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml, map[string]*bintree{}},
+					"deployment-ignores-deployer.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml, map[string]*bintree{}},
+					"deployment-image-resolution.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentImageResolutionYaml, map[string]*bintree{}},
 					"deployment-min-ready-seconds.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml, map[string]*bintree{}},
-					"deployment-simple.yaml":            &bintree{testExtendedTestdataDeploymentsDeploymentSimpleYaml, map[string]*bintree{}},
-					"deployment-trigger.yaml":           &bintree{testExtendedTestdataDeploymentsDeploymentTriggerYaml, map[string]*bintree{}},
-					"deployment-with-ref-env.yaml":      &bintree{testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml, map[string]*bintree{}},
-					"failing-pre-hook.yaml":             &bintree{testExtendedTestdataDeploymentsFailingPreHookYaml, map[string]*bintree{}},
-					"generation-test.yaml":              &bintree{testExtendedTestdataDeploymentsGenerationTestYaml, map[string]*bintree{}},
-					"multi-ict-deployment.yaml":         &bintree{testExtendedTestdataDeploymentsMultiIctDeploymentYaml, map[string]*bintree{}},
-					"paused-deployment.yaml":            &bintree{testExtendedTestdataDeploymentsPausedDeploymentYaml, map[string]*bintree{}},
-					"readiness-test.yaml":               &bintree{testExtendedTestdataDeploymentsReadinessTestYaml, map[string]*bintree{}},
-					"tag-images-deployment.yaml":        &bintree{testExtendedTestdataDeploymentsTagImagesDeploymentYaml, map[string]*bintree{}},
-					"test-deployment-broken.yaml":       &bintree{testExtendedTestdataDeploymentsTestDeploymentBrokenYaml, map[string]*bintree{}},
-					"test-deployment-test.yaml":         &bintree{testExtendedTestdataDeploymentsTestDeploymentTestYaml, map[string]*bintree{}},
+					"deployment-simple.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentSimpleYaml, map[string]*bintree{}},
+					"deployment-trigger.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentTriggerYaml, map[string]*bintree{}},
+					"deployment-with-ref-env.yaml": &bintree{testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml, map[string]*bintree{}},
+					"failing-pre-hook.yaml": &bintree{testExtendedTestdataDeploymentsFailingPreHookYaml, map[string]*bintree{}},
+					"generation-test.yaml": &bintree{testExtendedTestdataDeploymentsGenerationTestYaml, map[string]*bintree{}},
+					"multi-ict-deployment.yaml": &bintree{testExtendedTestdataDeploymentsMultiIctDeploymentYaml, map[string]*bintree{}},
+					"paused-deployment.yaml": &bintree{testExtendedTestdataDeploymentsPausedDeploymentYaml, map[string]*bintree{}},
+					"readiness-test.yaml": &bintree{testExtendedTestdataDeploymentsReadinessTestYaml, map[string]*bintree{}},
+					"tag-images-deployment.yaml": &bintree{testExtendedTestdataDeploymentsTagImagesDeploymentYaml, map[string]*bintree{}},
+					"test-deployment-broken.yaml": &bintree{testExtendedTestdataDeploymentsTestDeploymentBrokenYaml, map[string]*bintree{}},
+					"test-deployment-test.yaml": &bintree{testExtendedTestdataDeploymentsTestDeploymentTestYaml, map[string]*bintree{}},
 				}},
 				"forcepull-test.json": &bintree{testExtendedTestdataForcepullTestJson, map[string]*bintree{}},
 				"gssapi": &bintree{nil, map[string]*bintree{
 					"config": &bintree{nil, map[string]*bintree{
-						"kubeconfig":        &bintree{testExtendedTestdataGssapiConfigKubeconfig, map[string]*bintree{}},
+						"kubeconfig": &bintree{testExtendedTestdataGssapiConfigKubeconfig, map[string]*bintree{}},
 						"oauth_config.json": &bintree{testExtendedTestdataGssapiConfigOauth_configJson, map[string]*bintree{}},
 					}},
 					"fedora": &bintree{nil, map[string]*bintree{
@@ -21405,17 +27377,17 @@ var _bintree = &bintree{nil, map[string]*bintree{
 						}},
 					}},
 					"proxy": &bintree{nil, map[string]*bintree{
-						"Dockerfile":                        &bintree{testExtendedTestdataGssapiProxyDockerfile, map[string]*bintree{}},
-						"configure.sh":                      &bintree{testExtendedTestdataGssapiProxyConfigureSh, map[string]*bintree{}},
-						"gssapiproxy-buildconfig.yaml":      &bintree{testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml, map[string]*bintree{}},
+						"Dockerfile": &bintree{testExtendedTestdataGssapiProxyDockerfile, map[string]*bintree{}},
+						"configure.sh": &bintree{testExtendedTestdataGssapiProxyConfigureSh, map[string]*bintree{}},
+						"gssapiproxy-buildconfig.yaml": &bintree{testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml, map[string]*bintree{}},
 						"gssapiproxy-deploymentconfig.yaml": &bintree{testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml, map[string]*bintree{}},
-						"gssapiproxy-imagestream.yaml":      &bintree{testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml, map[string]*bintree{}},
-						"gssapiproxy-service.yaml":          &bintree{testExtendedTestdataGssapiProxyGssapiproxyServiceYaml, map[string]*bintree{}},
-						"healthz":                           &bintree{testExtendedTestdataGssapiProxyHealthz, map[string]*bintree{}},
-						"kadm5.acl":                         &bintree{testExtendedTestdataGssapiProxyKadm5Acl, map[string]*bintree{}},
-						"kdc.conf":                          &bintree{testExtendedTestdataGssapiProxyKdcConf, map[string]*bintree{}},
-						"krb5.conf":                         &bintree{testExtendedTestdataGssapiProxyKrb5Conf, map[string]*bintree{}},
-						"proxy.conf":                        &bintree{testExtendedTestdataGssapiProxyProxyConf, map[string]*bintree{}},
+						"gssapiproxy-imagestream.yaml": &bintree{testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml, map[string]*bintree{}},
+						"gssapiproxy-service.yaml": &bintree{testExtendedTestdataGssapiProxyGssapiproxyServiceYaml, map[string]*bintree{}},
+						"healthz": &bintree{testExtendedTestdataGssapiProxyHealthz, map[string]*bintree{}},
+						"kadm5.acl": &bintree{testExtendedTestdataGssapiProxyKadm5Acl, map[string]*bintree{}},
+						"kdc.conf": &bintree{testExtendedTestdataGssapiProxyKdcConf, map[string]*bintree{}},
+						"krb5.conf": &bintree{testExtendedTestdataGssapiProxyKrb5Conf, map[string]*bintree{}},
+						"proxy.conf": &bintree{testExtendedTestdataGssapiProxyProxyConf, map[string]*bintree{}},
 					}},
 					"scripts": &bintree{nil, map[string]*bintree{
 						"gssapi-tests.sh": &bintree{testExtendedTestdataGssapiScriptsGssapiTestsSh, map[string]*bintree{}},
@@ -21437,35 +27409,35 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"Dockerfile": &bintree{testExtendedTestdataHelloBuilderDockerfile, map[string]*bintree{}},
 					"scripts": &bintree{nil, map[string]*bintree{
 						"assemble": &bintree{testExtendedTestdataHelloBuilderScriptsAssemble, map[string]*bintree{}},
-						"run":      &bintree{testExtendedTestdataHelloBuilderScriptsRun, map[string]*bintree{}},
+						"run": &bintree{testExtendedTestdataHelloBuilderScriptsRun, map[string]*bintree{}},
 					}},
 				}},
 				"idling-echo-server-rc.yaml": &bintree{testExtendedTestdataIdlingEchoServerRcYaml, map[string]*bintree{}},
-				"idling-echo-server.yaml":    &bintree{testExtendedTestdataIdlingEchoServerYaml, map[string]*bintree{}},
+				"idling-echo-server.yaml": &bintree{testExtendedTestdataIdlingEchoServerYaml, map[string]*bintree{}},
 				"image-pull-secrets": &bintree{nil, map[string]*bintree{
-					"dc-with-new-pull-secret.yaml":  &bintree{testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml, map[string]*bintree{}},
-					"dc-with-old-pull-secret.yaml":  &bintree{testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml, map[string]*bintree{}},
+					"dc-with-new-pull-secret.yaml": &bintree{testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml, map[string]*bintree{}},
+					"dc-with-old-pull-secret.yaml": &bintree{testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml, map[string]*bintree{}},
 					"pod-with-new-pull-secret.yaml": &bintree{testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml, map[string]*bintree{}},
-					"pod-with-no-pull-secret.yaml":  &bintree{testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml, map[string]*bintree{}},
+					"pod-with-no-pull-secret.yaml": &bintree{testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml, map[string]*bintree{}},
 					"pod-with-old-pull-secret.yaml": &bintree{testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml, map[string]*bintree{}},
 				}},
-				"imagestream-jenkins-slave-pods.yaml":    &bintree{testExtendedTestdataImagestreamJenkinsSlavePodsYaml, map[string]*bintree{}},
+				"imagestream-jenkins-slave-pods.yaml": &bintree{testExtendedTestdataImagestreamJenkinsSlavePodsYaml, map[string]*bintree{}},
 				"imagestreamtag-jenkins-slave-pods.yaml": &bintree{testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml, map[string]*bintree{}},
-				"incremental-auth-build.json":            &bintree{testExtendedTestdataIncrementalAuthBuildJson, map[string]*bintree{}},
+				"incremental-auth-build.json": &bintree{testExtendedTestdataIncrementalAuthBuildJson, map[string]*bintree{}},
 				"jenkins-plugin": &bintree{nil, map[string]*bintree{
-					"build-job-clone.xml":            &bintree{testExtendedTestdataJenkinsPluginBuildJobCloneXml, map[string]*bintree{}},
-					"build-job-slave.xml":            &bintree{testExtendedTestdataJenkinsPluginBuildJobSlaveXml, map[string]*bintree{}},
-					"build-job.xml":                  &bintree{testExtendedTestdataJenkinsPluginBuildJobXml, map[string]*bintree{}},
-					"build-with-env-job.xml":         &bintree{testExtendedTestdataJenkinsPluginBuildWithEnvJobXml, map[string]*bintree{}},
-					"build-with-exec-steps.xml":      &bintree{testExtendedTestdataJenkinsPluginBuildWithExecStepsXml, map[string]*bintree{}},
-					"create-job.xml":                 &bintree{testExtendedTestdataJenkinsPluginCreateJobXml, map[string]*bintree{}},
-					"delete-job-keys.xml":            &bintree{testExtendedTestdataJenkinsPluginDeleteJobKeysXml, map[string]*bintree{}},
-					"delete-job-labels.xml":          &bintree{testExtendedTestdataJenkinsPluginDeleteJobLabelsXml, map[string]*bintree{}},
-					"delete-job.xml":                 &bintree{testExtendedTestdataJenkinsPluginDeleteJobXml, map[string]*bintree{}},
-					"imagestream-scm-dsl-job.xml":    &bintree{testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml, map[string]*bintree{}},
-					"imagestream-scm-job.xml":        &bintree{testExtendedTestdataJenkinsPluginImagestreamScmJobXml, map[string]*bintree{}},
-					"multitag-job.xml":               &bintree{testExtendedTestdataJenkinsPluginMultitagJobXml, map[string]*bintree{}},
-					"multitag-template.json":         &bintree{testExtendedTestdataJenkinsPluginMultitagTemplateJson, map[string]*bintree{}},
+					"build-job-clone.xml": &bintree{testExtendedTestdataJenkinsPluginBuildJobCloneXml, map[string]*bintree{}},
+					"build-job-slave.xml": &bintree{testExtendedTestdataJenkinsPluginBuildJobSlaveXml, map[string]*bintree{}},
+					"build-job.xml": &bintree{testExtendedTestdataJenkinsPluginBuildJobXml, map[string]*bintree{}},
+					"build-with-env-job.xml": &bintree{testExtendedTestdataJenkinsPluginBuildWithEnvJobXml, map[string]*bintree{}},
+					"build-with-exec-steps.xml": &bintree{testExtendedTestdataJenkinsPluginBuildWithExecStepsXml, map[string]*bintree{}},
+					"create-job.xml": &bintree{testExtendedTestdataJenkinsPluginCreateJobXml, map[string]*bintree{}},
+					"delete-job-keys.xml": &bintree{testExtendedTestdataJenkinsPluginDeleteJobKeysXml, map[string]*bintree{}},
+					"delete-job-labels.xml": &bintree{testExtendedTestdataJenkinsPluginDeleteJobLabelsXml, map[string]*bintree{}},
+					"delete-job.xml": &bintree{testExtendedTestdataJenkinsPluginDeleteJobXml, map[string]*bintree{}},
+					"imagestream-scm-dsl-job.xml": &bintree{testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml, map[string]*bintree{}},
+					"imagestream-scm-job.xml": &bintree{testExtendedTestdataJenkinsPluginImagestreamScmJobXml, map[string]*bintree{}},
+					"multitag-job.xml": &bintree{testExtendedTestdataJenkinsPluginMultitagJobXml, map[string]*bintree{}},
+					"multitag-template.json": &bintree{testExtendedTestdataJenkinsPluginMultitagTemplateJson, map[string]*bintree{}},
 					"shared-resources-template.json": &bintree{testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson, map[string]*bintree{}},
 				}},
 				"jenkins-slave-template.yaml": &bintree{testExtendedTestdataJenkinsSlaveTemplateYaml, map[string]*bintree{}},
@@ -21473,27 +27445,27 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"v1.yaml": &bintree{testExtendedTestdataJobsV1Yaml, map[string]*bintree{}},
 				}},
 				"ldap": &bintree{nil, map[string]*bintree{
-					"ldapserver-buildconfig.json":         &bintree{testExtendedTestdataLdapLdapserverBuildconfigJson, map[string]*bintree{}},
-					"ldapserver-deploymentconfig.json":    &bintree{testExtendedTestdataLdapLdapserverDeploymentconfigJson, map[string]*bintree{}},
+					"ldapserver-buildconfig.json": &bintree{testExtendedTestdataLdapLdapserverBuildconfigJson, map[string]*bintree{}},
+					"ldapserver-deploymentconfig.json": &bintree{testExtendedTestdataLdapLdapserverDeploymentconfigJson, map[string]*bintree{}},
 					"ldapserver-imagestream-testenv.json": &bintree{testExtendedTestdataLdapLdapserverImagestreamTestenvJson, map[string]*bintree{}},
-					"ldapserver-imagestream.json":         &bintree{testExtendedTestdataLdapLdapserverImagestreamJson, map[string]*bintree{}},
-					"ldapserver-service.json":             &bintree{testExtendedTestdataLdapLdapserverServiceJson, map[string]*bintree{}},
+					"ldapserver-imagestream.json": &bintree{testExtendedTestdataLdapLdapserverImagestreamJson, map[string]*bintree{}},
+					"ldapserver-service.json": &bintree{testExtendedTestdataLdapLdapserverServiceJson, map[string]*bintree{}},
 				}},
 				"long_names": &bintree{nil, map[string]*bintree{
-					"Dockerfile":   &bintree{testExtendedTestdataLong_namesDockerfile, map[string]*bintree{}},
+					"Dockerfile": &bintree{testExtendedTestdataLong_namesDockerfile, map[string]*bintree{}},
 					"fixture.json": &bintree{testExtendedTestdataLong_namesFixtureJson, map[string]*bintree{}},
 				}},
 				"reencrypt-serving-cert.yaml": &bintree{testExtendedTestdataReencryptServingCertYaml, map[string]*bintree{}},
 				"roles": &bintree{nil, map[string]*bintree{
-					"empty-role.yaml":          &bintree{testExtendedTestdataRolesEmptyRoleYaml, map[string]*bintree{}},
+					"empty-role.yaml": &bintree{testExtendedTestdataRolesEmptyRoleYaml, map[string]*bintree{}},
 					"policy-clusterroles.yaml": &bintree{testExtendedTestdataRolesPolicyClusterrolesYaml, map[string]*bintree{}},
-					"policy-roles.yaml":        &bintree{testExtendedTestdataRolesPolicyRolesYaml, map[string]*bintree{}},
+					"policy-roles.yaml": &bintree{testExtendedTestdataRolesPolicyRolesYaml, map[string]*bintree{}},
 				}},
 				"router-http-echo-server.yaml": &bintree{testExtendedTestdataRouterHttpEchoServerYaml, map[string]*bintree{}},
-				"router-metrics.yaml":          &bintree{testExtendedTestdataRouterMetricsYaml, map[string]*bintree{}},
+				"router-metrics.yaml": &bintree{testExtendedTestdataRouterMetricsYaml, map[string]*bintree{}},
 				"run_policy": &bintree{nil, map[string]*bintree{
-					"parallel-bc.yaml":           &bintree{testExtendedTestdataRun_policyParallelBcYaml, map[string]*bintree{}},
-					"serial-bc.yaml":             &bintree{testExtendedTestdataRun_policySerialBcYaml, map[string]*bintree{}},
+					"parallel-bc.yaml": &bintree{testExtendedTestdataRun_policyParallelBcYaml, map[string]*bintree{}},
+					"serial-bc.yaml": &bintree{testExtendedTestdataRun_policySerialBcYaml, map[string]*bintree{}},
 					"serial-latest-only-bc.yaml": &bintree{testExtendedTestdataRun_policySerialLatestOnlyBcYaml, map[string]*bintree{}},
 				}},
 				"s2i-build-root.yaml": &bintree{testExtendedTestdataS2iBuildRootYaml, map[string]*bintree{}},
@@ -21501,13 +27473,13 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"root-access-build.yaml": &bintree{testExtendedTestdataS2iDropcapsRootAccessBuildYaml, map[string]*bintree{}},
 					"rootable-ruby": &bintree{nil, map[string]*bintree{
 						"Dockerfile": &bintree{testExtendedTestdataS2iDropcapsRootableRubyDockerfile, map[string]*bintree{}},
-						"adduser":    &bintree{testExtendedTestdataS2iDropcapsRootableRubyAdduser, map[string]*bintree{}},
-						"assemble":   &bintree{testExtendedTestdataS2iDropcapsRootableRubyAssemble, map[string]*bintree{}},
+						"adduser": &bintree{testExtendedTestdataS2iDropcapsRootableRubyAdduser, map[string]*bintree{}},
+						"assemble": &bintree{testExtendedTestdataS2iDropcapsRootableRubyAssemble, map[string]*bintree{}},
 					}},
 				}},
-				"sample-image-stream.json":     &bintree{testExtendedTestdataSampleImageStreamJson, map[string]*bintree{}},
+				"sample-image-stream.json": &bintree{testExtendedTestdataSampleImageStreamJson, map[string]*bintree{}},
 				"samplepipeline-withenvs.yaml": &bintree{testExtendedTestdataSamplepipelineWithenvsYaml, map[string]*bintree{}},
-				"scoped-router.yaml":           &bintree{testExtendedTestdataScopedRouterYaml, map[string]*bintree{}},
+				"scoped-router.yaml": &bintree{testExtendedTestdataScopedRouterYaml, map[string]*bintree{}},
 				"service-serving-cert": &bintree{nil, map[string]*bintree{
 					"nginx-serving-cert.conf": &bintree{testExtendedTestdataServiceServingCertNginxServingCertConf, map[string]*bintree{}},
 				}},
@@ -21519,65 +27491,65 @@ var _bintree = &bintree{nil, map[string]*bintree{
 						}},
 					}},
 				}},
-				"statusfail-failedassemble.yaml":    &bintree{testExtendedTestdataStatusfailFailedassembleYaml, map[string]*bintree{}},
+				"statusfail-failedassemble.yaml": &bintree{testExtendedTestdataStatusfailFailedassembleYaml, map[string]*bintree{}},
 				"statusfail-fetchbuilderimage.yaml": &bintree{testExtendedTestdataStatusfailFetchbuilderimageYaml, map[string]*bintree{}},
 				"statusfail-fetchsourcedocker.yaml": &bintree{testExtendedTestdataStatusfailFetchsourcedockerYaml, map[string]*bintree{}},
-				"statusfail-fetchsources2i.yaml":    &bintree{testExtendedTestdataStatusfailFetchsources2iYaml, map[string]*bintree{}},
-				"statusfail-genericreason.yaml":     &bintree{testExtendedTestdataStatusfailGenericreasonYaml, map[string]*bintree{}},
-				"statusfail-postcommithook.yaml":    &bintree{testExtendedTestdataStatusfailPostcommithookYaml, map[string]*bintree{}},
-				"statusfail-pushtoregistry.yaml":    &bintree{testExtendedTestdataStatusfailPushtoregistryYaml, map[string]*bintree{}},
-				"statusfail-runtimeartifacts.yaml":  &bintree{testExtendedTestdataStatusfailRuntimeartifactsYaml, map[string]*bintree{}},
+				"statusfail-fetchsources2i.yaml": &bintree{testExtendedTestdataStatusfailFetchsources2iYaml, map[string]*bintree{}},
+				"statusfail-genericreason.yaml": &bintree{testExtendedTestdataStatusfailGenericreasonYaml, map[string]*bintree{}},
+				"statusfail-postcommithook.yaml": &bintree{testExtendedTestdataStatusfailPostcommithookYaml, map[string]*bintree{}},
+				"statusfail-pushtoregistry.yaml": &bintree{testExtendedTestdataStatusfailPushtoregistryYaml, map[string]*bintree{}},
+				"statusfail-runtimeartifacts.yaml": &bintree{testExtendedTestdataStatusfailRuntimeartifactsYaml, map[string]*bintree{}},
 				"sti-environment-build-app": &bintree{nil, map[string]*bintree{
 					".sti": &bintree{nil, map[string]*bintree{
 						"environment": &bintree{testExtendedTestdataStiEnvironmentBuildAppStiEnvironment, map[string]*bintree{}},
 					}},
-					"Gemfile":   &bintree{testExtendedTestdataStiEnvironmentBuildAppGemfile, map[string]*bintree{}},
+					"Gemfile": &bintree{testExtendedTestdataStiEnvironmentBuildAppGemfile, map[string]*bintree{}},
 					"config.ru": &bintree{testExtendedTestdataStiEnvironmentBuildAppConfigRu, map[string]*bintree{}},
 				}},
 				"templates": &bintree{nil, map[string]*bintree{
 					"templateinstance_objectkinds.yaml": &bintree{testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml, map[string]*bintree{}},
 				}},
-				"test-auth-build.yaml":     &bintree{testExtendedTestdataTestAuthBuildYaml, map[string]*bintree{}},
+				"test-auth-build.yaml": &bintree{testExtendedTestdataTestAuthBuildYaml, map[string]*bintree{}},
 				"test-bc-with-pr-ref.yaml": &bintree{testExtendedTestdataTestBcWithPrRefYaml, map[string]*bintree{}},
 				"test-build-app": &bintree{nil, map[string]*bintree{
 					"Dockerfile": &bintree{testExtendedTestdataTestBuildAppDockerfile, map[string]*bintree{}},
-					"Gemfile":    &bintree{testExtendedTestdataTestBuildAppGemfile, map[string]*bintree{}},
-					"config.ru":  &bintree{testExtendedTestdataTestBuildAppConfigRu, map[string]*bintree{}},
+					"Gemfile": &bintree{testExtendedTestdataTestBuildAppGemfile, map[string]*bintree{}},
+					"config.ru": &bintree{testExtendedTestdataTestBuildAppConfigRu, map[string]*bintree{}},
 				}},
-				"test-build-podsvc.json":              &bintree{testExtendedTestdataTestBuildPodsvcJson, map[string]*bintree{}},
-				"test-build-postcommit.json":          &bintree{testExtendedTestdataTestBuildPostcommitJson, map[string]*bintree{}},
-				"test-build-proxy.yaml":               &bintree{testExtendedTestdataTestBuildProxyYaml, map[string]*bintree{}},
-				"test-build-revision.json":            &bintree{testExtendedTestdataTestBuildRevisionJson, map[string]*bintree{}},
-				"test-build.json":                     &bintree{testExtendedTestdataTestBuildJson, map[string]*bintree{}},
+				"test-build-podsvc.json": &bintree{testExtendedTestdataTestBuildPodsvcJson, map[string]*bintree{}},
+				"test-build-postcommit.json": &bintree{testExtendedTestdataTestBuildPostcommitJson, map[string]*bintree{}},
+				"test-build-proxy.yaml": &bintree{testExtendedTestdataTestBuildProxyYaml, map[string]*bintree{}},
+				"test-build-revision.json": &bintree{testExtendedTestdataTestBuildRevisionJson, map[string]*bintree{}},
+				"test-build.json": &bintree{testExtendedTestdataTestBuildJson, map[string]*bintree{}},
 				"test-buildconfigsecretinjector.yaml": &bintree{testExtendedTestdataTestBuildconfigsecretinjectorYaml, map[string]*bintree{}},
-				"test-cds-dockerbuild.json":           &bintree{testExtendedTestdataTestCdsDockerbuildJson, map[string]*bintree{}},
-				"test-cds-sourcebuild.json":           &bintree{testExtendedTestdataTestCdsSourcebuildJson, map[string]*bintree{}},
-				"test-cli-debug.yaml":                 &bintree{testExtendedTestdataTestCliDebugYaml, map[string]*bintree{}},
-				"test-context-build.json":             &bintree{testExtendedTestdataTestContextBuildJson, map[string]*bintree{}},
-				"test-custom-build.json":              &bintree{testExtendedTestdataTestCustomBuildJson, map[string]*bintree{}},
-				"test-docker-build-pullsecret.json":   &bintree{testExtendedTestdataTestDockerBuildPullsecretJson, map[string]*bintree{}},
-				"test-docker-build-quota.json":        &bintree{testExtendedTestdataTestDockerBuildQuotaJson, map[string]*bintree{}},
-				"test-docker-build.json":              &bintree{testExtendedTestdataTestDockerBuildJson, map[string]*bintree{}},
-				"test-docker-no-outputname.json":      &bintree{testExtendedTestdataTestDockerNoOutputnameJson, map[string]*bintree{}},
-				"test-env-build.json":                 &bintree{testExtendedTestdataTestEnvBuildJson, map[string]*bintree{}},
-				"test-env-pod.json":                   &bintree{testExtendedTestdataTestEnvPodJson, map[string]*bintree{}},
-				"test-gitserver-tokenauth.yaml":       &bintree{testExtendedTestdataTestGitserverTokenauthYaml, map[string]*bintree{}},
-				"test-gitserver.yaml":                 &bintree{testExtendedTestdataTestGitserverYaml, map[string]*bintree{}},
-				"test-imagesource-build.yaml":         &bintree{testExtendedTestdataTestImagesourceBuildYaml, map[string]*bintree{}},
-				"test-nosrc-build.json":               &bintree{testExtendedTestdataTestNosrcBuildJson, map[string]*bintree{}},
-				"test-s2i-build-quota.json":           &bintree{testExtendedTestdataTestS2iBuildQuotaJson, map[string]*bintree{}},
-				"test-s2i-build.json":                 &bintree{testExtendedTestdataTestS2iBuildJson, map[string]*bintree{}},
-				"test-s2i-no-outputname.json":         &bintree{testExtendedTestdataTestS2iNoOutputnameJson, map[string]*bintree{}},
-				"test-secret-build.json":              &bintree{testExtendedTestdataTestSecretBuildJson, map[string]*bintree{}},
-				"test-secret.json":                    &bintree{testExtendedTestdataTestSecretJson, map[string]*bintree{}},
+				"test-cds-dockerbuild.json": &bintree{testExtendedTestdataTestCdsDockerbuildJson, map[string]*bintree{}},
+				"test-cds-sourcebuild.json": &bintree{testExtendedTestdataTestCdsSourcebuildJson, map[string]*bintree{}},
+				"test-cli-debug.yaml": &bintree{testExtendedTestdataTestCliDebugYaml, map[string]*bintree{}},
+				"test-context-build.json": &bintree{testExtendedTestdataTestContextBuildJson, map[string]*bintree{}},
+				"test-custom-build.json": &bintree{testExtendedTestdataTestCustomBuildJson, map[string]*bintree{}},
+				"test-docker-build-pullsecret.json": &bintree{testExtendedTestdataTestDockerBuildPullsecretJson, map[string]*bintree{}},
+				"test-docker-build-quota.json": &bintree{testExtendedTestdataTestDockerBuildQuotaJson, map[string]*bintree{}},
+				"test-docker-build.json": &bintree{testExtendedTestdataTestDockerBuildJson, map[string]*bintree{}},
+				"test-docker-no-outputname.json": &bintree{testExtendedTestdataTestDockerNoOutputnameJson, map[string]*bintree{}},
+				"test-env-build.json": &bintree{testExtendedTestdataTestEnvBuildJson, map[string]*bintree{}},
+				"test-env-pod.json": &bintree{testExtendedTestdataTestEnvPodJson, map[string]*bintree{}},
+				"test-gitserver-tokenauth.yaml": &bintree{testExtendedTestdataTestGitserverTokenauthYaml, map[string]*bintree{}},
+				"test-gitserver.yaml": &bintree{testExtendedTestdataTestGitserverYaml, map[string]*bintree{}},
+				"test-imagesource-build.yaml": &bintree{testExtendedTestdataTestImagesourceBuildYaml, map[string]*bintree{}},
+				"test-nosrc-build.json": &bintree{testExtendedTestdataTestNosrcBuildJson, map[string]*bintree{}},
+				"test-s2i-build-quota.json": &bintree{testExtendedTestdataTestS2iBuildQuotaJson, map[string]*bintree{}},
+				"test-s2i-build.json": &bintree{testExtendedTestdataTestS2iBuildJson, map[string]*bintree{}},
+				"test-s2i-no-outputname.json": &bintree{testExtendedTestdataTestS2iNoOutputnameJson, map[string]*bintree{}},
+				"test-secret-build.json": &bintree{testExtendedTestdataTestSecretBuildJson, map[string]*bintree{}},
+				"test-secret.json": &bintree{testExtendedTestdataTestSecretJson, map[string]*bintree{}},
 				"valuefrom": &bintree{nil, map[string]*bintree{
-					"failed-docker-build-value-from-config.yaml":     &bintree{testExtendedTestdataValuefromFailedDockerBuildValueFromConfigYaml, map[string]*bintree{}},
-					"failed-sti-build-value-from-config.yaml":        &bintree{testExtendedTestdataValuefromFailedStiBuildValueFromConfigYaml, map[string]*bintree{}},
+					"failed-docker-build-value-from-config.yaml": &bintree{testExtendedTestdataValuefromFailedDockerBuildValueFromConfigYaml, map[string]*bintree{}},
+					"failed-sti-build-value-from-config.yaml": &bintree{testExtendedTestdataValuefromFailedStiBuildValueFromConfigYaml, map[string]*bintree{}},
 					"successful-docker-build-value-from-config.yaml": &bintree{testExtendedTestdataValuefromSuccessfulDockerBuildValueFromConfigYaml, map[string]*bintree{}},
-					"successful-sti-build-value-from-config.yaml":    &bintree{testExtendedTestdataValuefromSuccessfulStiBuildValueFromConfigYaml, map[string]*bintree{}},
-					"test-configmap.yaml":                            &bintree{testExtendedTestdataValuefromTestConfigmapYaml, map[string]*bintree{}},
-					"test-is.json":                                   &bintree{testExtendedTestdataValuefromTestIsJson, map[string]*bintree{}},
-					"test-secret.yaml":                               &bintree{testExtendedTestdataValuefromTestSecretYaml, map[string]*bintree{}},
+					"successful-sti-build-value-from-config.yaml": &bintree{testExtendedTestdataValuefromSuccessfulStiBuildValueFromConfigYaml, map[string]*bintree{}},
+					"test-configmap.yaml": &bintree{testExtendedTestdataValuefromTestConfigmapYaml, map[string]*bintree{}},
+					"test-is.json": &bintree{testExtendedTestdataValuefromTestIsJson, map[string]*bintree{}},
+					"test-secret.yaml": &bintree{testExtendedTestdataValuefromTestSecretYaml, map[string]*bintree{}},
 				}},
 				"weighted-router.yaml": &bintree{testExtendedTestdataWeightedRouterYaml, map[string]*bintree{}},
 			}},
@@ -21585,16 +27557,16 @@ var _bintree = &bintree{nil, map[string]*bintree{
 		"integration": &bintree{nil, map[string]*bintree{
 			"testdata": &bintree{nil, map[string]*bintree{
 				"project-request-template-with-quota.yaml": &bintree{testIntegrationTestdataProjectRequestTemplateWithQuotaYaml, map[string]*bintree{}},
-				"test-buildcli-beta2.json":                 &bintree{testIntegrationTestdataTestBuildcliBeta2Json, map[string]*bintree{}},
-				"test-buildcli.json":                       &bintree{testIntegrationTestdataTestBuildcliJson, map[string]*bintree{}},
-				"test-deployment-config.yaml":              &bintree{testIntegrationTestdataTestDeploymentConfigYaml, map[string]*bintree{}},
-				"test-egress-network-policy.json":          &bintree{testIntegrationTestdataTestEgressNetworkPolicyJson, map[string]*bintree{}},
-				"test-image-stream-mapping.json":           &bintree{testIntegrationTestdataTestImageStreamMappingJson, map[string]*bintree{}},
-				"test-image-stream.json":                   &bintree{testIntegrationTestdataTestImageStreamJson, map[string]*bintree{}},
-				"test-image.json":                          &bintree{testIntegrationTestdataTestImageJson, map[string]*bintree{}},
-				"test-route.json":                          &bintree{testIntegrationTestdataTestRouteJson, map[string]*bintree{}},
-				"test-service-with-finalizer.json":         &bintree{testIntegrationTestdataTestServiceWithFinalizerJson, map[string]*bintree{}},
-				"test-service.json":                        &bintree{testIntegrationTestdataTestServiceJson, map[string]*bintree{}},
+				"test-buildcli-beta2.json": &bintree{testIntegrationTestdataTestBuildcliBeta2Json, map[string]*bintree{}},
+				"test-buildcli.json": &bintree{testIntegrationTestdataTestBuildcliJson, map[string]*bintree{}},
+				"test-deployment-config.yaml": &bintree{testIntegrationTestdataTestDeploymentConfigYaml, map[string]*bintree{}},
+				"test-egress-network-policy.json": &bintree{testIntegrationTestdataTestEgressNetworkPolicyJson, map[string]*bintree{}},
+				"test-image-stream-mapping.json": &bintree{testIntegrationTestdataTestImageStreamMappingJson, map[string]*bintree{}},
+				"test-image-stream.json": &bintree{testIntegrationTestdataTestImageStreamJson, map[string]*bintree{}},
+				"test-image.json": &bintree{testIntegrationTestdataTestImageJson, map[string]*bintree{}},
+				"test-route.json": &bintree{testIntegrationTestdataTestRouteJson, map[string]*bintree{}},
+				"test-service-with-finalizer.json": &bintree{testIntegrationTestdataTestServiceWithFinalizerJson, map[string]*bintree{}},
+				"test-service.json": &bintree{testIntegrationTestdataTestServiceJson, map[string]*bintree{}},
 			}},
 		}},
 	}},
@@ -21646,3 +27618,4 @@ func _filePath(dir, name string) string {
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
+

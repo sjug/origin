@@ -1,6 +1,8 @@
 package cluster
 
 import (
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/spf13/viper"
@@ -91,4 +93,15 @@ func ParseConfig(config string) {
 	viper.AddConfigPath(".")
 	viper.ReadInConfig()
 	viper.Unmarshal(&ConfigContext)
+}
+
+// ParseFixtureConfig will parse config file from fixture
+func ParseFixtureConfig(config string) {
+	dir, file := filepath.Split(config)
+	s := strings.Split(file, ".")
+	viper.SetConfigName(s[0])
+	viper.AddConfigPath(dir)
+	viper.ReadInConfig()
+	viper.Unmarshal(&ConfigContext)
+	return
 }
