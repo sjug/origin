@@ -25,16 +25,23 @@ type TestDuration struct {
 	Duration  time.Duration `json:"testDuration,omitempty"`
 }
 
-func (td TestDuration) MarshalJSON() ([]byte, error) {
-	type Alias TestDuration
-	return json.Marshal(&struct {
-		Alias
-		Duration string `json:"testDuration"`
-	}{
-		Alias:    (Alias)(td),
-		Duration: td.Duration.String(),
-	})
-}
+//func (td TestDuration) MarshalJSON() ([]byte, error) {
+//	//type Alias TestDuration
+//	//return json.Marshal(&struct {
+//	//	Alias
+//	//	Duration string `json:"testDuration"`
+//	//}{
+//	//	Alias:    (Alias)(td),
+//	//	Duration: td.Duration.String(),
+//	//})
+//	return json.Marshal(&struct {
+//		StartTime time.Time `json:"startTime"`
+//		Duration  string    `json:"testDuration"`
+//	}{
+//		StartTime: td.StartTime,
+//		Duration:  td.Duration.String(),
+//	})
+//}
 
 func (td *TestDuration) UnmarshalJSON(b []byte) error {
 	var err error
@@ -55,32 +62,38 @@ func (td *TestDuration) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (bm *BaseMetrics) UnmarshalJSON(data []byte) error {
-	//type Alias BaseMetrics
-	//tmp := &struct {
-	//	TestDuration
-	//	*Alias
-	//}{
-	//	TestDuration: TestDuration{},
-	//	Alias:        (*Alias)(bm),
-	//}
-	fmt.Printf("UnmarshalJSON: Data input: %+v\n", string(data))
+//func (bm BaseMetrics) MarshalJSON() ([]byte, error) {
+//	type Alias BaseMetrics
+//	return json.Marshal(&struct {
+//		Alias
+//		TestDuration
+//	}{
+//		Alias:    (Alias)(bm),
+//		Duration: td.Duration.String(),
+//	})
+//}
+
+func (bm *BaseMetrics) UnmarshalJSON(b []byte) error {
 	tmp := struct {
 		Marker string `json:"marker"`
 		Name   string `json:"name"`
 		Type   string `json:"type"`
 	}{}
-	err := json.Unmarshal(data, &tmp)
-	if err != nil {
+	if err := json.Unmarshal(b, &tmp); err != nil {
 		return err
 	}
-
-	fmt.Printf("UnmarshalJSON: Post unmarshal struct: %+v\n", tmp)
 
 	bm.Marker = tmp.Marker
 	bm.Name = tmp.Name
 	bm.Type = tmp.Type
 
+	if tmp.Type == "TestDuration" {
+		var td TestDuration
+		if err := json.Unmarshal(b, &td); err != nil {
+			return err
+		}
+		bm.TestDuration = td
+	}
 	return nil
 }
 
