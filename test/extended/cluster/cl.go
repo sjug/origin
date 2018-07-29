@@ -186,27 +186,8 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Load cluster", func() {
 
 		// Wait for builds and deployments to complete
 		for _, ns := range namespaces {
-			buildList, err := oc.BuildClient().Build().Builds(ns).List(metav1.ListOptions{})
-			if err != nil {
-				e2e.Logf("Error listing builds: %v", err)
-			}
-			if len(buildList.Items) > 0 {
-				buildName := buildList.Items[0].Name
-				e2e.Logf("Waiting for build: %q", buildName)
-				err = exutil.WaitForABuild(oc.BuildClient().Build().Builds(ns), buildName, nil, nil, nil)
-				if err != nil {
-					exutil.DumpBuildLogs(buildName, oc)
-				}
-				o.Expect(err).NotTo(o.HaveOccurred())
-				e2e.Logf("Build %q completed", buildName)
-
-				// deploymentName is buildName without the -1 suffix
-				deploymentName := buildName[:len(buildName)-2]
-				e2e.Logf("Waiting for deployment: %q", deploymentName)
-				err = exutil.WaitForDeploymentConfig(oc.KubeClient(), oc.AppsClient().Apps(), ns, deploymentName, 1, true, oc)
-				o.Expect(err).NotTo(o.HaveOccurred())
-				e2e.Logf("Deployment %q completed", deploymentName)
-			}
+			err := WaitForBuildsInNamespace(oc, ns)
+			o.Expect(err).NotTo(o.HaveOccurred())
 		}
 
 		// Calculate and log test duration

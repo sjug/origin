@@ -464,6 +464,10 @@ func CreateTemplates(oc *exutil.CLI, c kclientset.Interface, nsName string, temp
 				time.Sleep(time.Duration(tuning.Templates.RateLimit.Delay) * time.Millisecond)
 			}
 			if tuning.Templates.Stepping.StepSize != 0 && (i+1)%tuning.Templates.Stepping.StepSize == 0 {
+				err := WaitForBuildsInNamespace(oc, nsName)
+				if err != nil {
+					return err
+				}
 				e2e.Logf("We have created %d templates and are now sleeping for %d seconds", i+1, tuning.Templates.Stepping.Pause)
 				time.Sleep(time.Duration(tuning.Templates.Stepping.Pause) * time.Second)
 			}
@@ -518,6 +522,37 @@ func SetNamespaceLabels(c kclientset.Interface, name string, labels map[string]s
 	}
 	ns.Labels = labels
 	return c.CoreV1().Namespaces().Update(ns)
+}
+
+func WaitForBuildsInNamespace(oc *exutil.CLI, ns string) error {
+	buildList, err := oc.BuildClient().Build().Builds(ns).List(metav1.ListOptions{})
+	if err != nil {
+		e2e.Logf("Error listing builds: %v", err)
+	}
+	if len(buildList.Items) > 0 {
+		for i := range buildList.Items {
+			buildName := buildList.Items[i].Name
+			e2e.Logf("Waiting for build: %q", buildName)
+			err = exutil.WaitForABuild(oc.BuildClient().Build().Builds(ns), buildName, nil, nil, nil)
+			if err != nil {
+				exutil.DumpBuildLogs(buildName, oc)
+				return err
+			}
+			e2e.Logf("Build %q completed", buildName)
+
+			// deploymentName is buildName without the -1 suffix
+			deploymentName := buildName[:len(buildName)-2]
+			e2e.Logf("Waiting for deployment: %q", deploymentName)
+			err = exutil.WaitForDeploymentConfig(oc.KubeClient(), oc.AppsClient().Apps(), ns, deploymentName, 1, true, oc)
+			if err != nil {
+				return err
+			}
+			e2e.Logf("Deployment %q completed", deploymentName)
+		}
+
+	}
+	e2e.Logf("No builds in namespace \"%s\"", ns)
+	return nil
 }
 
 func ProjectExists(oc *exutil.CLI, name string) (bool, error) {
