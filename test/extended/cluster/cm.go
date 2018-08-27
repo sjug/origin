@@ -19,7 +19,8 @@ import (
 
 var _ = g.Describe("[Feature:Performance][Serial][Slow] Mirror cluster", func() {
 	defer g.GinkgoRecover()
-	const filename string = "cm.yml"
+	const nodeFilename string = "nodes.yml"
+	const mirrorFilename string = "cm.yml"
 	var oc = exutil.NewCLI("cl", exutil.KubeConfigPath())
 	var c kclientset.Interface
 
@@ -38,6 +39,7 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Mirror cluster", func() 
 	})
 
 	g.It("it should read the node info", func() {
+		var b strings.Builder
 		nodeinfo := map[string]map[string]int{}
 
 		nodes, err := c.CoreV1().Nodes().List(metav1.ListOptions{})
@@ -52,6 +54,16 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Mirror cluster", func() 
 			nodeinfo[node.Labels["type"]][node.Labels["beta.kubernetes.io/instance-type"]] += 1
 		}
 		e2e.Logf("We have %v\n", nodeinfo)
+		for k, v := range nodeinfo {
+			for t, n := range v {
+				fmt.Fprintf(&b, "%s_size: %v\n", k, t)
+				fmt.Fprintf(&b, "%s_count: %v\n", k, n)
+			}
+		}
+		err = ioutil.WriteFile(nodeFilename, []byte(b.String()), 0644)
+		if err != nil {
+			log.Fatalf("error: %v", err)
+		}
 	})
 
 	g.It("it should read the cluster apps", func() {
@@ -159,7 +171,7 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Mirror cluster", func() 
 		}
 
 		// Write to file
-		err = ioutil.WriteFile(filename, d, 0644)
+		err = ioutil.WriteFile(mirrorFilename, d, 0644)
 		if err != nil {
 			log.Fatalf("error: %v", err)
 		}
