@@ -13,6 +13,7 @@ import (
 	"unicode"
 
 	kapiv1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -24,7 +25,10 @@ import (
 )
 
 // The number of times we re-try to create a pod
-const maxRetries = 4
+const (
+	maxRetries = 4
+	sleep      = 5 * time.Second
+)
 
 // ParsePods unmarshalls the json file defined in the CL config into a struct
 func ParsePods(jsonFile string) (configStruct kapiv1.Pod) {
@@ -105,6 +109,10 @@ func CreatePods(c kclientset.Interface, appName string, ns string, labels map[st
 			if err == nil {
 				break
 			}
+			if _, isStatus := err.(*errors.StatusError); isStatus {
+				//statusError.Status.Reason == metav1.StatusReasonForbidden
+				continue
+			}
 			framework.ExpectNoError(err)
 		}
 		if tuning != nil {
@@ -115,12 +123,21 @@ func CreatePods(c kclientset.Interface, appName string, ns string, labels map[st
 			}
 			// If a stepping tuningset has been defined in the config, we wait for the step of pods to be created, and pause
 			if tuning.Pods.Stepping.StepSize != 0 && (i+1)%tuning.Pods.Stepping.StepSize == 0 {
-				framework.Logf("Waiting for pods created this step to be running")
-				pods, err := exutil.WaitForPods(c.CoreV1().Pods(ns), exutil.ParseLabelsOrDie(mapToString(labels)), exutil.CheckPodIsRunning, i+1, tuning.Pods.Stepping.Timeout*time.Second)
-				if err != nil {
-					framework.Failf("Error in wait... %v", err)
-				} else if len(pods) < i+1 {
-					framework.Failf("Only got %v out of %v", len(pods), i+1)
+				var podCount int
+				for j := 1; j < maxRetries; j++ {
+					framework.Logf("Waiting for pods created this step to be running (attempt %d)", j)
+					pods, err := exutil.WaitForPods(c.CoreV1().Pods(ns), exutil.ParseLabelsOrDie(mapToString(labels)), exutil.CheckPodIsRunning, i+1, tuning.Pods.Stepping.Timeout*time.Second)
+					if err != nil {
+						sleepBackoff := sleep * time.Duration(j)
+						framework.Failf("Error in wait... \"%v\". Sleeping for %ds", err, sleepBackoff)
+						time.Sleep(sleepBackoff)
+						continue
+					}
+					podCount = len(pods)
+					break
+				}
+				if podCount < i+1 {
+					framework.Failf("Only got %v out of %v", podCount, i+1)
 				}
 
 				framework.Logf("We have created %d pods and are now sleeping for %d seconds", i+1, tuning.Pods.Stepping.Pause)
