@@ -26,8 +26,8 @@ import (
 
 // The number of times we re-try to create a pod
 const (
-	maxRetries = 4
-	sleep      = 5 * time.Second
+	maxRetries = 6
+	sleep      = 10 * time.Second
 )
 
 // ParsePods unmarshalls the json file defined in the CL config into a struct
@@ -129,7 +129,7 @@ func CreatePods(c kclientset.Interface, appName string, ns string, labels map[st
 					pods, err := exutil.WaitForPods(c.CoreV1().Pods(ns), exutil.ParseLabelsOrDie(mapToString(labels)), exutil.CheckPodIsRunning, i+1, tuning.Pods.Stepping.Timeout*time.Second)
 					if err != nil {
 						sleepBackoff := sleep * time.Duration(j)
-						framework.Failf("Error in wait... \"%v\". Sleeping for %ds", err, sleepBackoff)
+						framework.Logf("Error in wait... \"%v\". Sleeping for %d ns.", err, sleepBackoff)
 						time.Sleep(sleepBackoff)
 						continue
 					}
