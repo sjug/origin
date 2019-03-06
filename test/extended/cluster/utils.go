@@ -13,7 +13,6 @@ import (
 	"unicode"
 
 	kapiv1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -106,13 +105,15 @@ func CreatePods(c kclientset.Interface, appName string, ns string, labels map[st
 				},
 				Spec: spec,
 			})
-			if err == nil {
+			if err != nil {
+				continue
+			} else {
 				break
 			}
-			if _, isStatus := err.(*errors.StatusError); isStatus {
-				//statusError.Status.Reason == metav1.StatusReasonForbidden
-				continue
-			}
+			//if _, isStatus := err.(*errors.StatusError); isStatus {
+			//	//statusError.Status.Reason == metav1.StatusReasonForbidden
+			//	continue
+			//}
 			framework.ExpectNoError(err)
 		}
 		if tuning != nil {
