@@ -17,6 +17,7 @@ const (
 type ContextType struct {
 	ClusterLoader struct {
 		Cleanup    bool
+		PostSleep  time.Duration `yaml:",omitempty"`
 		Projects   []ClusterLoaderType
 		Sync       SyncObjectType  `yaml:",omitempty"`
 		TuningSets []TuningSetType `yaml:",omitempty"`

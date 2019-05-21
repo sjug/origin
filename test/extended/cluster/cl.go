@@ -217,6 +217,11 @@ var _ = g.Describe("[Feature:Performance][Serial][Slow] Load cluster", func() {
 		err := metrics.LogMetrics(m)
 		o.Expect(err).NotTo(o.HaveOccurred())
 
+		postSleep := ConfigContext.ClusterLoader.PostSleep
+		if postSleep != 0 {
+			time.Sleep(postSleep * time.Second)
+		}
+
 		// If config context set to cleanup on completion
 		if ConfigContext.ClusterLoader.Cleanup == true {
 			for _, ns := range namespaces {
